@@ -24,19 +24,25 @@ namespace AMDM.BLL.Services
 
         public IEnumerable<PerformerDTO> GetPerformers()
         {
-            Mapper.CreateMap<Performer, PerformerDTO>();
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<Performer, PerformerDTO>();
+            });
             return Mapper.Map<IEnumerable<Performer>, List<PerformerDTO>>(Database.Performers.GetAll());
         }
 
         public IEnumerable<SongDTO> GetSongs()
         {
-            Mapper.CreateMap<Song, SongDTO>();
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<Song, SongDTO>();
+            });
             return Mapper.Map<IEnumerable<Song>, List<SongDTO>>(Database.Songs.GetAll());
         }
 
         public IEnumerable<ChordDTO> GetChords()
         {
-            Mapper.CreateMap<Chord, ChordDTO>();
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<Chord, ChordDTO>();
+            });
             return Mapper.Map<IEnumerable<Chord>, List<ChordDTO>>(Database.Chords.GetAll());
         }
 
@@ -47,7 +53,9 @@ namespace AMDM.BLL.Services
             var performer = Database.Performers.Get(id.Value);
             if (performer == null)
                 throw new ValidationException("Can't find performer", "");
-            Mapper.CreateMap<Performer, PerformerDTO>();
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<Performer, PerformerDTO>();
+            });
             return Mapper.Map<Performer, PerformerDTO>(performer);
         }
 
@@ -58,7 +66,9 @@ namespace AMDM.BLL.Services
             var song = Database.Songs.Get(id.Value);
             if (song == null)
                 throw new ValidationException("Can't find song", "");
-            Mapper.CreateMap<Song, SongDTO>();
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<Song, SongDTO>();
+            });     
             return Mapper.Map<Song, SongDTO>(song);
         }
 
@@ -69,7 +79,9 @@ namespace AMDM.BLL.Services
             var chord = Database.Chords.Get(id.Value);
             if (chord == null)
                 throw new ValidationException("Can't find chord", "");
-            Mapper.CreateMap<Chord, ChordDTO>();
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<Chord, ChordDTO>();
+            });
             return Mapper.Map<Chord, ChordDTO>(chord);
         }
 

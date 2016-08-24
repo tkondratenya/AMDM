@@ -26,14 +26,18 @@ namespace AMDM.WEB.Controllers
 
         public ActionResult ShowPerformers()
         {
-            Mapper.CreateMap<PerformerDTO, PerformerViewModel>();
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<PerformerDTO, PerformerViewModel>();
+            });
             var performers = Mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(amdmService.GetPerformers());
             return View(performers);
         }
 
         public ActionResult ShowSongs()
         {
-            Mapper.CreateMap<SongDTO, SongViewModel>();
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<SongDTO, SongViewModel>();
+            });
             var songs = Mapper.Map<IEnumerable<SongDTO>, List<SongViewModel>>(amdmService.GetSongs());
             return View(songs);
         }
