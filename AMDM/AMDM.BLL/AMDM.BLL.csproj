@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,14 +47,19 @@
     <Compile Include="DTO\ChordDTO.cs" />
     <Compile Include="DTO\PerformerDTO.cs" />
     <Compile Include="DTO\SongDTO.cs" />
+    <Compile Include="Infastructure\ValidationException.cs" />
     <Compile Include="Interfaces\IAmdmService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AmdmService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AMDM.DAL\AMDM.DAL.csproj">
       <Project>{48dad9d8-0a36-40cf-a40a-14de7e41c6d2}</Project>
       <Name>AMDM.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
