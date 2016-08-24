@@ -24,7 +24,7 @@ namespace AMDM.BLL.Services
 
         public IEnumerable<PerformerDTO> GetPerformers()
         {
-            AutoMapper.Mapper.CreateMap<Performer, PerformerDTO>();
+            Mapper.CreateMap<Performer, PerformerDTO>();
             return Mapper.Map<IEnumerable<Performer>, List<PerformerDTO>>(Database.Performers.GetAll());
         }
 

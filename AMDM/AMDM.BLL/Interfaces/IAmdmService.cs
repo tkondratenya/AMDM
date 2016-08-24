@@ -11,7 +11,7 @@ namespace AMDM.BLL.Interfaces
     {
         IEnumerable<PerformerDTO> GetPerformers();
         IEnumerable<SongDTO> GetSongs();
-        IEnumerable<ChordDTO> GetChord();
+        IEnumerable<ChordDTO> GetChords();
         PerformerDTO GetPerformer(int? id);
         SongDTO GetSong(int? id);
         ChordDTO GetChord(int? id);
