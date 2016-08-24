@@ -13,23 +13,10 @@ namespace AMDM.DAL.EF
         public DbSet<Performer> Performers { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<Chord> Chords { get; set; }
-
-        static AmdmContext()
-        {
-            Database.SetInitializer<AmdmContext>(new AmdmDbInitializer());
-        }
+    
         public AmdmContext(string connectionString)
             : base(connectionString)
         {
-        }
-    }
-
-    public class AmdmDbInitializer : DropCreateDatabaseIfModelChanges<AmdmContext>
-    {
-        protected override void Seed(AmdmContext db)
-        {
-            db.Performers.Add(new Performer { Name = "Mindless Self Indulgence" });
-            db.SaveChanges();
         }
     }
 }
