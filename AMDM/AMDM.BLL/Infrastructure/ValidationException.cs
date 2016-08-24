@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AMDM.BLL.Infastructure
+namespace AMDM.BLL.Infrastructure
 {
     class ValidationException : Exception
     {
