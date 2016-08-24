@@ -9,6 +9,8 @@ namespace AMDM.DAL.Entities
     public class Chord
     {
         public int Id { get; set; }
-        public byte[] ImageData { get; set; }
+        public string Name { get; set; }
+        public string ImageLink { get; set; }
+        public ICollection<Song> Songs { get; set; }
     }
 }
