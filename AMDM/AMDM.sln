@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMDM.WEB", "AMDM.WEB\AMDM.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMDM.DAL", "AMDM.DAL\AMDM.DAL.csproj", "{48DAD9D8-0A36-40CF-A40A-14DE7E41C6D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMDM.BLL", "AMDM.BLL\AMDM.BLL.csproj", "{33F30691-EBA1-43E0-AE6E-7949B393AA73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{48DAD9D8-0A36-40CF-A40A-14DE7E41C6D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48DAD9D8-0A36-40CF-A40A-14DE7E41C6D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48DAD9D8-0A36-40CF-A40A-14DE7E41C6D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33F30691-EBA1-43E0-AE6E-7949B393AA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33F30691-EBA1-43E0-AE6E-7949B393AA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33F30691-EBA1-43E0-AE6E-7949B393AA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33F30691-EBA1-43E0-AE6E-7949B393AA73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
