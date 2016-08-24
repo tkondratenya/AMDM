@@ -43,6 +43,7 @@
     <Compile Include="DTO\ChordDTO.cs" />
     <Compile Include="DTO\PerformerDTO.cs" />
     <Compile Include="DTO\SongDTO.cs" />
+    <Compile Include="Interfaces\IAmdmService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
