@@ -169,8 +169,7 @@ namespace AMDM.BLL.Services
                         artistBio = artistBioNode.InnerText;
                     }
                     // Debug message with artist's data
-                    Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio);
-                    // Creating performer object to save in database  
+                    Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio); 
                     HtmlNode songListNode = songContent.SelectSingleNode(".//div[@class='artist-profile-song-list']");
                     var count = 0;
                     // List to store songs for performer object
@@ -273,6 +272,7 @@ namespace AMDM.BLL.Services
                         Database.Songs.Create(song);
                         songList.Add(song);
                     }
+                    // Creating performer object to save in database 
                     Performer performer = new Performer
                     {
                         Name = artistName,
@@ -283,6 +283,7 @@ namespace AMDM.BLL.Services
                     };
                     Database.Performers.Create(performer);
                     Database.Save();
+                    Debug.WriteLine("Saved changes in database!");
                 }
             }
             Debug.WriteLine("ENDED SUCCESSFULLY");
