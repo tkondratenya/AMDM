@@ -88,16 +88,11 @@ namespace AMDM.BLL.Services
             return Mapper.Map<Chord, ChordDTO>(chord);
         }
 
-        public void ParsePerformers()
+        public void ParseAmdm()
         {
-            var performerList = new List<Object>();
-            var songList = new List<Object>();
-            var chordList = new List<Object>();
-
             bool artistWebPass = false;
             bool songWebPass = false;
             bool pageWebPass = false;
-
             WebClient web = new WebClient();
             web.Encoding = UTF8Encoding.UTF8;
             for (int i = 1; i <= 10; i++)
@@ -174,11 +169,18 @@ namespace AMDM.BLL.Services
                     }
                     // Debug message with artist's data
                     Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio);
+                    // Creating performer object to save in database
+                    Performer performer = new Performer
+                    {
+                        Name = artistName,
+                        ImageLink = artistPhotoLink,
+                        PerformerPageLink = artistLink,
+                        BiographyText = artistBio
+                    };
+                    Database.Performers.Create(performer);
+                    Database.Save();
                     HtmlNode songListNode = songContent.SelectSingleNode(".//div[@class='artist-profile-song-list']");
-
-                    var artistSongList = new List<Object>();
                     var count = 0;
-
                     foreach (var songCell in songListNode.SelectNodes("//table[@id='tablesort']/tr"))
                     {
                         var songName = "";
@@ -241,28 +243,38 @@ namespace AMDM.BLL.Services
                         }
                         // Debug message with song's data
                         Debug.WriteLine("song name: " + songName + " views:" + songViews + "\nsong link: " + songLink + "\nvideo link: " + songVideoLink + "\nsong text: " + songText + "\n");
-
-                        var songChordList = new List<Object>();
-
+                        // Creating song object to save in database
+                        Song song = new Song
+                        {
+                            Name = songName,
+                            SongPageLink = songLink,
+                            Text = songText,
+                            VideoLink = songVideoLink,
+                            Views = Convert.ToInt32(songViews)
+                        };
+                        Database.Songs.Create(song);
+                        Database.Save();
                         var chordNodes = chordContent.SelectNodes("//div[@id='song_chords']/img");
                         // Getting chords data
                         if (chordNodes != null)
                         {
-                            foreach (var chord in chordNodes)
+                            foreach (var imgNode in chordNodes)
                             {
-                                var chordLink = ("http:" + chord.Attributes["src"].Value);
-                                var chordName = chord.Attributes["alt"].Value;
+                                var chordLink = ("http:" + imgNode.Attributes["src"].Value);
+                                var chordName = imgNode.Attributes["alt"].Value;
                                 //Debug message with chord data
                                 Debug.WriteLine("chord name: " + chordName + "\nchord link: " + chordLink);
-
-                                songChordList.Add(new { Name = chordName, ImageLink = chordLink });
+                                // Creating chord object to save in database
+                                Chord chord = new Chord
+                                {
+                                    Name = chordName,
+                                    ImageLink = chordLink,
+                                };
+                                Database.Chords.Create(chord);
+                                Database.Save();
                             }
                         }
-                        artistSongList.Add(new { Name = songName, Views = songViews, SongPageLink = songLink, VideoLink = songVideoLink, Text = songText, Chords = songChordList });
                     }
-
-                    performerList.Add(new { Name = artistName, ImageLink = artistPhotoLink, PerformerPageLink = artistLink, BiographyText = artistBio, Songs = artistSongList });
-
                 }
             }
             Debug.WriteLine("ENDED SUCCESSFULLY");

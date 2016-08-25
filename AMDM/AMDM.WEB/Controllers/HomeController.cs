@@ -26,7 +26,7 @@ namespace AMDM.WEB.Controllers
 
         public ActionResult ParsePerformers()
         {
-            amdmService.ParsePerformers();
+            amdmService.ParseAmdm();
             /*Mapper.Initialize(cfg => {
                 cfg.CreateMap<PerformerDTO, PerformerViewModel>();
             });

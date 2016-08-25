@@ -15,7 +15,7 @@ namespace AMDM.BLL.Interfaces
         PerformerDTO GetPerformer(int? id);
         SongDTO GetSong(int? id);
         ChordDTO GetChord(int? id);
-        void ParsePerformers();
+        void ParseAmdm();
         void Dispose();
     }
 }
