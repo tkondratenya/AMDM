@@ -11,6 +11,7 @@ namespace AMDM.BLL.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string SongPageLink { get; set; }
         public Performer Performer { get; set; }
         public string Text { get; set; }
         public ICollection<Chord> Chords { get; set; }

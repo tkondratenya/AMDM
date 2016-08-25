@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using AMDM.BLL.Infrastructure;
 using HtmlAgilityPack;
 using System.Diagnostics;
+using System.Net;
 
 namespace AMDM.BLL.Services
 {
@@ -93,73 +94,180 @@ namespace AMDM.BLL.Services
             var songList = new List<Object>();
             var chordList = new List<Object>();
 
-            System.Net.WebClient web = new System.Net.WebClient();
+            bool artistWebPass = false;
+            bool songWebPass = false;
+            bool pageWebPass = false;
+
+            WebClient web = new WebClient();
             web.Encoding = UTF8Encoding.UTF8;
             for (int i = 1; i <= 10; i++)
             {
-                Debug.WriteLine("Parsing page №" + i);
-                string str = web.DownloadString("http://amdm.ru/chords/page" + i + "/");
+                Debug.WriteLine("Parsing page №" + i);             
+                string str = "";
+                pageWebPass = false;
+                // Trying to access appropriate amdm.ru/chords/page
+                while (!pageWebPass)
+                {
+                    try
+                    {
+                        str = web.DownloadString("http://amdm.ru/chords/page" + i + "/");
+                        pageWebPass = true;
+                    }
+                    catch (WebException e)
+                    {
+                        pageWebPass = false;
+                        Debug.WriteLine("WEB EXCEPTION! Waiting 5 seconds!");
+                        System.Threading.Thread.Sleep(5000);
+                    }
+                }
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(str);
                 foreach (var cell in doc.DocumentNode.SelectNodes("//table[@class='items']/tr"))
                 {
-                    var artistPhotoLink = ("http:" + cell.SelectSingleNode(".//a[@class='photo']").ChildNodes.First().Attributes["src"].Value);
-                    var artistLink = ("http:" + cell.SelectSingleNode(".//a[@class='artist']").Attributes["href"].Value);
-                    var artistName = cell.SelectSingleNode(".//a[@class='artist']").InnerText;
-
-                    string artistStr = web.DownloadString(artistLink);
+                    var artistPhotoLink = "";
+                    var artistPhotoLinkNode = cell.SelectSingleNode(".//a[@class='photo']").ChildNodes.First();
+                    // Getting artist photo link
+                    if (artistPhotoLinkNode != null)
+                    {
+                        artistPhotoLink = ("http:" + artistPhotoLinkNode.Attributes["src"].Value);
+                    }
+                    var artistLink = "";
+                    var artistLinkNode = cell.SelectSingleNode(".//a[@class='artist']");
+                    // Getting artist page link
+                    if (artistLinkNode != null)
+                    {
+                        artistLink = ("http:" + artistLinkNode.Attributes["href"].Value);
+                    }
+                    var artistName = "";
+                    var artistNameNode = cell.SelectSingleNode(".//a[@class='artist']");
+                    // Getting artist name
+                    if (artistNameNode != null)
+                    {
+                        artistName = (artistLinkNode.InnerText);
+                    }
+                    string artistStr = "";
+                    artistWebPass = false;
+                    // Trying to access artist's page
+                    while (!artistWebPass)
+                    {
+                        try
+                        {
+                            artistStr = web.DownloadString(artistLink);
+                            artistWebPass = true;
+                        }
+                        catch (WebException e)
+                        {
+                            artistWebPass = false;
+                            Debug.WriteLine("WEB EXCEPTION! Waiting 5 seconds!");
+                            System.Threading.Thread.Sleep(5000);
+                        }
+                    }
                     HtmlDocument artistDoc = new HtmlDocument();
                     artistDoc.LoadHtml(artistStr);
-
                     HtmlNode songContent = artistDoc.DocumentNode.SelectSingleNode("//div[@class='content-table']");
-                    var artistBio = songContent.SelectSingleNode(".//div[@class='artist-profile__bio']").InnerText;
+                    var artistBio = "";
+                    var artistBioNode = songContent.SelectSingleNode(".//div[@class='artist-profile__bio']");
+                    // Getting artist biography
+                    if(artistBioNode != null)
+                    {
+                        artistBio = artistBioNode.InnerText;
+                    }
+                    // Debug message with artist's data
+                    Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio);
                     HtmlNode songListNode = songContent.SelectSingleNode(".//div[@class='artist-profile-song-list']");
 
                     var artistSongList = new List<Object>();
+                    var count = 0;
 
                     foreach (var songCell in songListNode.SelectNodes("//table[@id='tablesort']/tr"))
                     {
-                        var songName = songCell.SelectSingleNode(".//a[@class='g-link']").InnerText;
-                        var songLink = ("http:" + songCell.SelectSingleNode(".//a[@class='g-link']").Attributes["href"].Value);
-                        var songViews = Int32.Parse(songCell.SelectSingleNode(".//td[@class='number hidden-phone']").InnerText);
-                        
-                        string songStr = web.DownloadString(songLink);
-                        HtmlDocument songDoc = new HtmlDocument();
-                        songDoc.LoadHtml(songStr);
-
-                        HtmlNode chordContent = songDoc.DocumentNode.SelectSingleNode("//div[@class='content-table']");
-                        var songText = chordContent.SelectSingleNode("//div[@class='b-podbor__text']/pre").InnerText;
-                        Debug.WriteLine(songText + "\n");
-                        var songVideoLink = "";
-                        var songVideoLinkNode = chordContent.SelectSingleNode("//div[@class='b-video-container']/iframe");
-                        if (songVideoLinkNode != null)
+                        var songName = "";
+                        var songNameNode = songCell.SelectSingleNode(".//a[@class='g-link']");
+                        // Getting song name
+                        if(songNameNode != null)
                         {
-                           songVideoLink = songVideoLinkNode.Attributes["src"].Value;
+                            songName = songCell.SelectSingleNode(".//a[@class='g-link']").InnerText;
+                        }  
+                        var songLink = "";
+                        var songLinkNode = songCell.SelectSingleNode(".//a[@class='g-link']");
+                        // Getting song link
+                        if (songLinkNode != null)
+                        {
+                            songLink = ("http:" + songLinkNode.Attributes["href"].Value);
+                        }
+                        var songViews = "";
+                        var songViewsNode = songCell.SelectSingleNode(".//td[@class='number hidden-phone']");
+                        // Getting song views
+                        if (songViewsNode != null) {
+                            songViews = songViewsNode.InnerText;
                         }
 
+                        string songStr = "";
+                        songWebPass = false;
+                        // Trying to access song's page
+                        while (!songWebPass)
+                        {
+                            try
+                            {
+                                songStr = web.DownloadString(songLink);
+                                songWebPass = true;
+                            }
+                            catch (WebException e)
+                            {
+                                songWebPass = false;
+                                Debug.WriteLine("WEB EXCEPTION! Waiting 5 seconds!");
+                                System.Threading.Thread.Sleep(5000);
+                            }
+                        }
+                        count++;
+                        // Debug message with songs count
+                        Debug.WriteLine("Parsing Song№" + count);
+                        HtmlDocument songDoc = new HtmlDocument();
+                        songDoc.LoadHtml(songStr);
+                        HtmlNode chordContent = songDoc.DocumentNode.SelectSingleNode("//div[@class='content-table']");
+                        var songText = "";
+                        var songTextNode = chordContent.SelectSingleNode("//div[@class='b-podbor__text']/pre");
+                        // Getting song's text
+                        if (songTextNode != null)
+                        {
+                            songText = chordContent.SelectSingleNode("//div[@class='b-podbor__text']/pre").InnerText;
+                        }
+                        var songVideoLink = "";
+                        var songVideoLinkNode = chordContent.SelectSingleNode("//div[@class='b-video-container']/iframe");
+                        // Getting song's video link
+                        if (songVideoLinkNode != null)
+                        {
+                            songVideoLink = songVideoLinkNode.Attributes["src"].Value;
+                        }
+                        // Debug message with song's data
                         Debug.WriteLine("song name: " + songName + " views:" + songViews + "\nsong link: " + songLink + "\nvideo link: " + songVideoLink + "\nsong text: " + songText + "\n");
 
                         var songChordList = new List<Object>();
 
-                        foreach (var chord in chordContent.SelectNodes("//div[@id='song_chords']/img"))
+                        var chordNodes = chordContent.SelectNodes("//div[@id='song_chords']/img");
+                        // Getting chords data
+                        if (chordNodes != null)
                         {
-                            var chordLink = ("http:" + chord.Attributes["src"].Value);
-                            var chordName = chord.Attributes["alt"].Value;
+                            foreach (var chord in chordNodes)
+                            {
+                                var chordLink = ("http:" + chord.Attributes["src"].Value);
+                                var chordName = chord.Attributes["alt"].Value;
+                                //Debug message with chord data
+                                Debug.WriteLine("chord name: " + chordName + "\nchord link: " + chordLink);
 
-                            Debug.WriteLine("chord name: " + chordName + "\nchord link: " + chordLink);
-
-                            songChordList.Add(new { Name = chordName, ImageLink = chordLink});
-
-                            artistSongList.Add(new { Name = songName, Views = songViews, SongPageLink = songLink, VideoLink = songVideoLink, Text = songText, Chords = songChordList });
+                                songChordList.Add(new { Name = chordName, ImageLink = chordLink });
+                            }
                         }
-                        System.Threading.Thread.Sleep(50);
+                        artistSongList.Add(new { Name = songName, Views = songViews, SongPageLink = songLink, VideoLink = songVideoLink, Text = songText, Chords = songChordList });
                     }
 
-                    Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio);
-
                     performerList.Add(new { Name = artistName, ImageLink = artistPhotoLink, PerformerPageLink = artistLink, BiographyText = artistBio, Songs = artistSongList });
+
                 }
             }
+            Debug.WriteLine("ENDED SUCCESSFULLY");
+            Debug.WriteLine("ENDED SUCCESSFULLY");
+            Debug.WriteLine("ENDED SUCCESSFULLY");
         }
 
         public void Dispose()
