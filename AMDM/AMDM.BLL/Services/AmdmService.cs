@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMDM.BLL.Infrastructure;
+using HtmlAgilityPack;
+using System.Diagnostics;
 
 namespace AMDM.BLL.Services
 {
@@ -83,6 +85,24 @@ namespace AMDM.BLL.Services
                 cfg.CreateMap<Chord, ChordDTO>();
             });
             return Mapper.Map<Chord, ChordDTO>(chord);
+        }
+
+        public void ParsePerformers()
+        {
+            System.Net.WebClient web = new System.Net.WebClient();
+            web.Encoding = UTF8Encoding.UTF8;
+            for (int i = 1; i <= 10; i++) {
+                string str = web.DownloadString("http://amdm.ru/chords/page" + i + "/");
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(str);
+                var rows = doc.DocumentNode.SelectNodes("//table[@class='items']/tr");
+                for (int j = 1; j < rows.Count; j++) {
+                    foreach (var cell in rows[i].SelectNodes(".//td"))
+                    {
+                        Debug.WriteLine(cell.InnerText.Trim());
+                    }
+                }
+                    }
         }
 
         public void Dispose()
