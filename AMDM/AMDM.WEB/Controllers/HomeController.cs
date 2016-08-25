@@ -31,7 +31,7 @@ namespace AMDM.WEB.Controllers
                 cfg.CreateMap<PerformerDTO, PerformerViewModel>();
             });
             var performers = Mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(amdmService.GetPerformers());*/
-            return View();//performers);
+            return RedirectToAction("Index");//performers);
         }
 
         public ActionResult ShowSongs()
