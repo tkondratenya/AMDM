@@ -29,6 +29,11 @@ namespace AMDM.WEB.Controllers
             amdmService.ParseAmdm();
             return RedirectToAction("Index");
         }
+        public ActionResult DeleteAllData()
+        {
+            amdmService.DeleteAllData();
+            return RedirectToAction("Index");
+        }
 
         public ActionResult ShowSongs()
         {

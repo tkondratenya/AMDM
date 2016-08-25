@@ -291,6 +291,23 @@ namespace AMDM.BLL.Services
             Debug.WriteLine("ENDED SUCCESSFULLY");
         }
 
+        public void DeleteAllData()
+        {
+           foreach( Performer performer in Database.Performers.GetAll())
+            {
+                Database.Performers.Delete(performer.Id);
+            }
+           foreach(Song song in Database.Songs.GetAll())
+            {
+                Database.Songs.Delete(song.Id);
+            }
+            foreach (Chord chord in Database.Chords.GetAll())
+            {
+                Database.Chords.Delete(chord.Id);
+            }
+            Database.Save();
+        }
+
         public void Dispose()
         {
             Database.Dispose();
