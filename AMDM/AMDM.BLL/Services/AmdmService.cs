@@ -13,6 +13,7 @@ using AMDM.BLL.Infrastructure;
 using HtmlAgilityPack;
 using System.Diagnostics;
 using System.Net;
+using System.Collections;
 
 namespace AMDM.BLL.Services
 {
@@ -169,18 +170,11 @@ namespace AMDM.BLL.Services
                     }
                     // Debug message with artist's data
                     Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio);
-                    // Creating performer object to save in database
-                    Performer performer = new Performer
-                    {
-                        Name = artistName,
-                        ImageLink = artistPhotoLink,
-                        PerformerPageLink = artistLink,
-                        BiographyText = artistBio
-                    };
-                    Database.Performers.Create(performer);
-                    Database.Save();
+                    // Creating performer object to save in database  
                     HtmlNode songListNode = songContent.SelectSingleNode(".//div[@class='artist-profile-song-list']");
                     var count = 0;
+                    // List to store songs for performer object
+                    List<Song> songList = new List<Song>();
                     foreach (var songCell in songListNode.SelectNodes("//table[@id='tablesort']/tr"))
                     {
                         var songName = "";
@@ -243,18 +237,8 @@ namespace AMDM.BLL.Services
                         }
                         // Debug message with song's data
                         Debug.WriteLine("song name: " + songName + " views:" + songViews + "\nsong link: " + songLink + "\nvideo link: " + songVideoLink + "\nsong text: " + songText + "\n");
-                        // Creating song object to save in database
-                        Song song = new Song
-                        {
-                            Name = songName,
-                            SongPageLink = songLink,
-                            Text = songText,
-                            VideoLink = songVideoLink,
-                            Views = Convert.ToInt32(songViews)
-                        };
-                        Database.Songs.Create(song);
-                        Database.Save();
                         var chordNodes = chordContent.SelectNodes("//div[@id='song_chords']/img");
+                        ICollection<Chord> chordList = new List<Chord>();
                         // Getting chords data
                         if (chordNodes != null)
                         {
@@ -271,10 +255,34 @@ namespace AMDM.BLL.Services
                                     ImageLink = chordLink,
                                 };
                                 Database.Chords.Create(chord);
+                                chordList.Add(chord);
                                 Database.Save();
                             }
                         }
+                        // Creating song object to save in database
+                        Song song = new Song
+                        {
+                            Name = songName,
+                            SongPageLink = songLink,
+                            Text = songText,
+                            Chords = chordList,
+                            VideoLink = songVideoLink,
+                            Views = Convert.ToInt32(songViews) 
+                        };
+                        Database.Songs.Create(song);
+                        songList.Add(song);
+                        Database.Save();
                     }
+                    Performer performer = new Performer
+                    {
+                        Name = artistName,
+                        ImageLink = artistPhotoLink,
+                        Songs = songList,
+                        PerformerPageLink = artistLink,
+                        BiographyText = artistBio
+                    };
+                    Database.Performers.Create(performer);
+                    Database.Save();
                 }
             }
             Debug.WriteLine("ENDED SUCCESSFULLY");

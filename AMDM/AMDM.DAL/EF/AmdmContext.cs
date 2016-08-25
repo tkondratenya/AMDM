@@ -18,5 +18,14 @@ namespace AMDM.DAL.EF
             : base(connectionString)
         {
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Song>().HasMany(c => c.Chords)
+                .WithMany(s => s.Songs)
+                .Map(t => t.MapLeftKey("SongId")
+                .MapRightKey("ChordId")
+                .ToTable("SongChord"));
+            modelBuilder.Entity<Performer>().HasMany(c => c.Songs).WithRequired(o => o.Performer);
+        }
     }
 }
