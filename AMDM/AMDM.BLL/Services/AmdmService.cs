@@ -89,6 +89,10 @@ namespace AMDM.BLL.Services
 
         public void ParsePerformers()
         {
+            var performerList = new List<Object>();
+            var songList = new List<Object>();
+            var chordList = new List<Object>();
+
             System.Net.WebClient web = new System.Net.WebClient();
             web.Encoding = UTF8Encoding.UTF8;
             for (int i = 1; i <= 10; i++)
@@ -99,29 +103,26 @@ namespace AMDM.BLL.Services
                 doc.LoadHtml(str);
                 foreach (var cell in doc.DocumentNode.SelectNodes("//table[@class='items']/tr"))
                 {
-                    var photoLink = ("http:" + cell.SelectSingleNode(".//a[@class='photo']").ChildNodes.First().Attributes["src"].Value);
+                    var artistPhotoLink = ("http:" + cell.SelectSingleNode(".//a[@class='photo']").ChildNodes.First().Attributes["src"].Value);
                     var artistLink = ("http:" + cell.SelectSingleNode(".//a[@class='artist']").Attributes["href"].Value);
                     var artistName = cell.SelectSingleNode(".//a[@class='artist']").InnerText;
-                    Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + photoLink);
-                    Debug.WriteLine("");
 
                     string artistStr = web.DownloadString(artistLink);
                     HtmlDocument artistDoc = new HtmlDocument();
                     artistDoc.LoadHtml(artistStr);
 
                     HtmlNode songContent = artistDoc.DocumentNode.SelectSingleNode("//div[@class='content-table']");
-                    var bio = songContent.SelectSingleNode(".//div[@class='artist-profile__bio']").InnerText;
-                    HtmlNode songList = songContent.SelectSingleNode(".//div[@class='artist-profile-song-list']");
-                    Debug.WriteLine("artist bio: " + bio);
-                    Debug.WriteLine("");
-                    foreach (var songCell in songList.SelectNodes("//table[@id='tablesort']/tr"))
+                    var artistBio = songContent.SelectSingleNode(".//div[@class='artist-profile__bio']").InnerText;
+                    HtmlNode songListNode = songContent.SelectSingleNode(".//div[@class='artist-profile-song-list']");
+
+                    var artistSongList = new List<Object>();
+
+                    foreach (var songCell in songListNode.SelectNodes("//table[@id='tablesort']/tr"))
                     {
                         var songName = songCell.SelectSingleNode(".//a[@class='g-link']").InnerText;
                         var songLink = ("http:" + songCell.SelectSingleNode(".//a[@class='g-link']").Attributes["href"].Value);
-                        var songViews = songCell.SelectSingleNode(".//td[@class='number hidden-phone']").InnerText;
-                        Debug.WriteLine("song name: " + songName + " views:" + songViews + "\nsong link: " + songLink);
-                        Debug.WriteLine("=======================================================");
-
+                        var songViews = Int32.Parse(songCell.SelectSingleNode(".//td[@class='number hidden-phone']").InnerText);
+                        
                         string songStr = web.DownloadString(songLink);
                         HtmlDocument songDoc = new HtmlDocument();
                         songDoc.LoadHtml(songStr);
@@ -129,20 +130,34 @@ namespace AMDM.BLL.Services
                         HtmlNode chordContent = songDoc.DocumentNode.SelectSingleNode("//div[@class='content-table']");
                         var songText = chordContent.SelectSingleNode("//div[@class='b-podbor__text']/pre").InnerText;
                         Debug.WriteLine(songText + "\n");
+                        var songVideoLink = "";
                         var songVideoLinkNode = chordContent.SelectSingleNode("//div[@class='b-video-container']/iframe");
                         if (songVideoLinkNode != null)
                         {
-                            var songVideoLink = songVideoLinkNode.Attributes["src"].Value;
-                            Debug.WriteLine("video link : " + songVideoLink);
+                           songVideoLink = songVideoLinkNode.Attributes["src"].Value;
                         }
+
+                        Debug.WriteLine("song name: " + songName + " views:" + songViews + "\nsong link: " + songLink + "\nvideo link: " + songVideoLink + "\nsong text: " + songText + "\n");
+
+                        var songChordList = new List<Object>();
 
                         foreach (var chord in chordContent.SelectNodes("//div[@id='song_chords']/img"))
                         {
                             var chordLink = ("http:" + chord.Attributes["src"].Value);
                             var chordName = chord.Attributes["alt"].Value;
+
                             Debug.WriteLine("chord name: " + chordName + "\nchord link: " + chordLink);
+
+                            songChordList.Add(new { Name = chordName, ImageLink = chordLink});
+
+                            artistSongList.Add(new { Name = songName, Views = songViews, SongPageLink = songLink, VideoLink = songVideoLink, Text = songText, Chords = songChordList });
                         }
+                        System.Threading.Thread.Sleep(50);
                     }
+
+                    Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio);
+
+                    performerList.Add(new { Name = artistName, ImageLink = artistPhotoLink, PerformerPageLink = artistLink, BiographyText = artistBio, Songs = artistSongList });
                 }
             }
         }
