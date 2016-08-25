@@ -24,13 +24,14 @@ namespace AMDM.WEB.Controllers
             return View();
         }
 
-        public ActionResult ShowPerformers()
+        public ActionResult ParsePerformers()
         {
-            Mapper.Initialize(cfg => {
+            amdmService.ParsePerformers();
+            /*Mapper.Initialize(cfg => {
                 cfg.CreateMap<PerformerDTO, PerformerViewModel>();
             });
-            var performers = Mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(amdmService.GetPerformers());
-            return View(performers);
+            var performers = Mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(amdmService.GetPerformers());*/
+            return View();//performers);
         }
 
         public ActionResult ShowSongs()
