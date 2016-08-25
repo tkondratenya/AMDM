@@ -28,14 +28,14 @@ namespace AMDM.DAL.Repositories
             return db.Performers.Find(id);
         }
 
-        public void Create(Performer book)
+        public void Create(Performer performer)
         {
-            db.Performers.Add(book);
+            db.Performers.Add(performer);
         }
 
-        public void Update(Performer book)
+        public void Update(Performer performer)
         {
-            db.Entry(book).State = EntityState.Modified;
+            db.Entry(performer).State = EntityState.Modified;
         }
 
         public IEnumerable<Performer> Find(Func<Performer, Boolean> predicate)
@@ -45,9 +45,9 @@ namespace AMDM.DAL.Repositories
 
         public void Delete(int id)
         {
-            Performer book = db.Performers.Find(id);
-            if (book != null)
-                db.Performers.Remove(book);
+            Performer performer = db.Performers.Find(id);
+            if (performer != null)
+                db.Performers.Remove(performer);
         }
     }
 }

@@ -28,14 +28,14 @@ namespace AMDM.DAL.Repositories
             return db.Songs.Find(id);
         }
 
-        public void Create(Song book)
+        public void Create(Song song)
         {
-            db.Songs.Add(book);
+            db.Songs.Add(song);
         }
 
-        public void Update(Song book)
+        public void Update(Song song)
         {
-            db.Entry(book).State = EntityState.Modified;
+            db.Entry(song).State = EntityState.Modified;
         }
 
         public IEnumerable<Song> Find(Func<Song, Boolean> predicate)
@@ -45,9 +45,9 @@ namespace AMDM.DAL.Repositories
 
         public void Delete(int id)
         {
-            Song book = db.Songs.Find(id);
-            if (book != null)
-                db.Songs.Remove(book);
+            Song song = db.Songs.Find(id);
+            if (song != null)
+                db.Songs.Remove(song);
         }
     }
 }

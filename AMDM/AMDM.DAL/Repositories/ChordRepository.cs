@@ -28,14 +28,14 @@ namespace AMDM.DAL.Repositories
             return db.Chords.Find(id);
         }
 
-        public void Create(Chord book)
+        public void Create(Chord chord)
         {
-            db.Chords.Add(book);
+            db.Chords.Add(chord);
         }
 
-        public void Update(Chord book)
+        public void Update(Chord chord)
         {
-            db.Entry(book).State = EntityState.Modified;
+            db.Entry(chord).State = EntityState.Modified;
         }
 
         public IEnumerable<Chord> Find(Func<Chord, Boolean> predicate)
@@ -45,9 +45,9 @@ namespace AMDM.DAL.Repositories
 
         public void Delete(int id)
         {
-            Chord book = db.Chords.Find(id);
-            if (book != null)
-                db.Chords.Remove(book);
+            Chord chord = db.Chords.Find(id);
+            if (chord != null)
+                db.Chords.Remove(chord);
         }
     }
 }
