@@ -255,9 +255,11 @@ namespace AMDM.BLL.Services
                                 };
                                 Database.Chords.Create(chord);
                                 chordList.Add(chord);
+                                Database.Save();
                             }
                         }
                         int intViews = 0;
+                        songViews = songViews.Replace(",", "");
                         Int32.TryParse(songViews, out intViews);
                         // Creating song object to save in database     
                         Song song = new Song
@@ -271,6 +273,7 @@ namespace AMDM.BLL.Services
                         };
                         Database.Songs.Create(song);
                         songList.Add(song);
+                        Database.Save();
                     }
                     // Creating performer object to save in database 
                     Performer performer = new Performer
