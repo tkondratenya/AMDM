@@ -30,7 +30,7 @@ namespace AMDM.BLL.Services
         {
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<Performer, PerformerDTO>();
-            });
+            });       
             return Mapper.Map<IEnumerable<Performer>, List<PerformerDTO>>(Database.Performers.GetAll());
         }
 
@@ -169,7 +169,7 @@ namespace AMDM.BLL.Services
                         artistBio = artistBioNode.InnerText;
                     }
                     // Debug message with artist's data
-                    Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio); 
+                   // Debug.WriteLine("artist name: " + artistName + "\nartist link: " + artistLink + "\nphoto link: " + artistPhotoLink + "\nartist bio: " + artistBio); 
                     HtmlNode songListNode = songContent.SelectSingleNode(".//div[@class='artist-profile-song-list']");
                     var count = 0;
                     // List to store songs for performer object
@@ -214,9 +214,9 @@ namespace AMDM.BLL.Services
                                 System.Threading.Thread.Sleep(5000);
                             }
                         }
-                        count++;
+                        //count++;
                         // Debug message with songs count
-                        Debug.WriteLine("Parsing Song№" + count);
+                        //Debug.WriteLine("Parsing Song№" + count);
                         HtmlDocument songDoc = new HtmlDocument();
                         songDoc.LoadHtml(songStr);
                         HtmlNode chordContent = songDoc.DocumentNode.SelectSingleNode("//div[@class='content-table']");
@@ -235,7 +235,7 @@ namespace AMDM.BLL.Services
                             songVideoLink = songVideoLinkNode.Attributes["src"].Value;
                         }
                         // Debug message with song's data
-                        Debug.WriteLine("song name: " + songName + " views:" + songViews + "\nsong link: " + songLink + "\nvideo link: " + songVideoLink + "\nsong text: " + songText + "\n");
+                       // Debug.WriteLine("song name: " + songName + " views:" + songViews + "\nsong link: " + songLink + "\nvideo link: " + songVideoLink + "\nsong text: " + songText + "\n");
                         var chordNodes = chordContent.SelectNodes("//div[@id='song_chords']/img");
                         ICollection<Chord> chordList = new List<Chord>();
                         // Getting chords data
@@ -246,7 +246,7 @@ namespace AMDM.BLL.Services
                                 var chordLink = ("http:" + imgNode.Attributes["src"].Value);
                                 var chordName = imgNode.Attributes["alt"].Value;
                                 //Debug message with chord data
-                                Debug.WriteLine("chord name: " + chordName + "\nchord link: " + chordLink);
+                                //Debug.WriteLine("chord name: " + chordName + "\nchord link: " + chordLink);
                                 // Creating chord object to save in database
                                 Chord chord = Database.Chords.GetByName(chordName);
                                 if (chord == null)
