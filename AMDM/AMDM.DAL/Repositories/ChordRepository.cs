@@ -29,7 +29,7 @@ namespace AMDM.DAL.Repositories
         }
         public Chord GetByName(string name)
         {
-            return db.Chords.SingleOrDefault(x => x.Name == name);
+            return db.Chords.FirstOrDefault(x => x.Name == name);
         }
 
         public void Create(Chord chord)

@@ -29,7 +29,7 @@ namespace AMDM.DAL.Repositories
         }
         public Song GetByName(string name)
         {
-            return db.Songs.SingleOrDefault(x => x.Name == name);
+            return db.Songs.FirstOrDefault(x => x.Name == name);
         }
 
         public void Create(Song song)

@@ -29,7 +29,7 @@ namespace AMDM.DAL.Repositories
         }
         public Performer GetByName(string name)
         {
-            return db.Performers.SingleOrDefault(x => x.Name == name);
+            return db.Performers.FirstOrDefault(x => x.Name == name);
         }
 
         public void Create(Performer performer)
