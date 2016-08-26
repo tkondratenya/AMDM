@@ -248,11 +248,15 @@ namespace AMDM.BLL.Services
                                 //Debug message with chord data
                                 Debug.WriteLine("chord name: " + chordName + "\nchord link: " + chordLink);
                                 // Creating chord object to save in database
-                                Chord chord = new Chord
+                                Chord chord = Database.Chords.GetByName(chordName);
+                                if (chord == null)
                                 {
-                                    Name = chordName,
-                                    ImageLink = chordLink,
-                                };
+                                    chord = new Chord
+                                    {
+                                        Name = chordName,
+                                        ImageLink = chordLink,
+                                    };
+                                }
                                 Database.Chords.Create(chord);
                                 chordList.Add(chord);
                             }

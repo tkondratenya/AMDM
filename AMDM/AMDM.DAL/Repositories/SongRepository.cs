@@ -27,6 +27,10 @@ namespace AMDM.DAL.Repositories
         {
             return db.Songs.Find(id);
         }
+        public Song GetByName(string name)
+        {
+            return db.Songs.Single(x => x.Name == name);
+        }
 
         public void Create(Song song)
         {

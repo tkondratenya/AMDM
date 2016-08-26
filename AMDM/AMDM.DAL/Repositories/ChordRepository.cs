@@ -27,6 +27,10 @@ namespace AMDM.DAL.Repositories
         {
             return db.Chords.Find(id);
         }
+        public Chord GetByName(string name)
+        {
+            return db.Chords.Single(x => x.Name == name);
+        }
 
         public void Create(Chord chord)
         {

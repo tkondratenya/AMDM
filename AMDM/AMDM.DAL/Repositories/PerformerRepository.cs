@@ -27,6 +27,10 @@ namespace AMDM.DAL.Repositories
         {
             return db.Performers.Find(id);
         }
+        public Performer GetByName(string name)
+        {
+            return db.Performers.Single(x => x.Name == name);
+        }
 
         public void Create(Performer performer)
         {

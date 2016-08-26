@@ -9,12 +9,20 @@
         <tr class="page-header">
             <td><p>Исполнитель</p></td>
             <td><p>Подборов</p></td>
+            <td><p>Список песен</p></td>
         </tr>
         @foreach (AMDM.WEB.Models.PerformerViewModel p in Model)
         {
             <tr>
                 <td><p><img src="@p.ImageLink"><a href="@p.PerformerPageLink">@p.Name</a></p></td>
                 <td><p>@p.Songs.Count</p></td>
+                <td><p>
+                @foreach(AMDM.WEB.Models.SongViewModel s in p.Songs)
+                {
+                    @s.Name<br>
+                }
+                </p>
+                </td>
             </tr>
         }
     </table>
