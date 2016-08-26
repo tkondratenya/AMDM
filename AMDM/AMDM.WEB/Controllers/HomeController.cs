@@ -21,7 +21,10 @@ namespace AMDM.WEB.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<PerformerDTO> performerDtos = amdmService.GetPerformers();
+            Mapper.Initialize(cfg => cfg.CreateMap<PerformerDTO, PerformerViewModel>());
+            var performers = Mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(performerDtos);
+            return View(performers);
         }
 
         public ActionResult Parse()
@@ -33,15 +36,6 @@ namespace AMDM.WEB.Controllers
         {
             amdmService.DeleteAllData();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult ShowSongs()
-        {
-            Mapper.Initialize(cfg => {
-                cfg.CreateMap<SongDTO, SongViewModel>();
-            });
-            var songs = Mapper.Map<IEnumerable<SongDTO>, List<SongViewModel>>(amdmService.GetSongs());
-            return View(songs);
         }
 
     }
