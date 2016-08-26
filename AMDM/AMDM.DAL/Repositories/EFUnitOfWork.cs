@@ -55,6 +55,18 @@ namespace AMDM.DAL.Repositories
         {
             db.SaveChanges();
         }
+
+        public void Truncate()
+        {
+            db.Database.ExecuteSqlCommand("DELETE FROM [Chords]");
+            db.Database.ExecuteSqlCommand("DBCC CHECKIDENT([Chords], RESEED, 0)");
+            db.Database.ExecuteSqlCommand("DELETE FROM [Songs]");
+            db.Database.ExecuteSqlCommand("DBCC CHECKIDENT([Songs], RESEED, 0)");
+            db.Database.ExecuteSqlCommand("DELETE FROM [Performers]");
+            db.Database.ExecuteSqlCommand("DBCC CHECKIDENT([Performers], RESEED, 0)");
+            db.SaveChanges();
+        }
+
         private bool disposed = false;
 
         public virtual void Dispose(bool disposing)

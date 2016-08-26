@@ -13,5 +13,6 @@ namespace AMDM.DAL.Interfaces
         IRepository<Song> Songs { get; }
         IRepository<Chord> Chords { get; }
         void Save();
+        void Truncate();
     }
 }
