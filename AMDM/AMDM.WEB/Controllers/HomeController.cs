@@ -21,19 +21,9 @@ namespace AMDM.WEB.Controllers
 
         public ActionResult Index()
         {
+            amdmService.DatabaseCheck();
             IEnumerable<PerformerDTO> performerDtos = amdmService.GetPerformers();
-            /*foreach(PerformerDTO pd in performerDtos)
-            {
-                foreach (SongDTO sd in pd.Songs)
-                {
-                    System.Diagnostics.Debug.WriteLine()
-            }
-            }*/
-            
-            Mapper.Initialize(cfg => {
-                cfg.CreateMap<PerformerDTO, PerformerViewModel>();
-            });
-            var performers = Mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(performerDtos);
+            List<PerformerViewModel> performers = Mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(performerDtos);
             return View(performers);
         }
 

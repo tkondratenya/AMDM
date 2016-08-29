@@ -10,6 +10,11 @@ namespace AMDM.WEB.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImageLink { get; set; }
-        public ICollection<SongViewModel> Songs { get; set; }
+        public virtual ICollection<SongViewModel> Songs { get; set; }
+
+        public ChordViewModel()
+        {
+            Songs = new List<SongViewModel>();
+        }
     }
 }

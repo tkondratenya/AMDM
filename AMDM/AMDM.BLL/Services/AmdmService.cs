@@ -25,29 +25,39 @@ namespace AMDM.BLL.Services
         {
             Database = uow;
         }
-
         public IEnumerable<PerformerDTO> GetPerformers()
         {
-            Mapper.Initialize(cfg => {
-                cfg.CreateMap<Performer, PerformerDTO>();
-            });       
             return Mapper.Map<IEnumerable<Performer>, List<PerformerDTO>>(Database.Performers.GetAll());
         }
 
+        public void DatabaseCheck()
+        {
+            var perfDto = Mapper.Map<Performer,PerformerDTO>(Database.Performers.Get(14));
+            var perf = Database.Performers.Get(14);
+            Debug.WriteLine("perf name and count:" + perf.Name + "  " + perf.Songs.Count);
+            Debug.WriteLine("perf name and count:" + perfDto.Name + "  " + perfDto.Songs.Count);
+
+        }
         public IEnumerable<SongDTO> GetSongs()
         {
-            Mapper.Initialize(cfg => {
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Song, SongDTO>();
             });
-            return Mapper.Map<IEnumerable<Song>, List<SongDTO>>(Database.Songs.GetAll());
+            mapperConfig.AssertConfigurationIsValid();
+            var mapper = mapperConfig.CreateMapper();
+            return mapper.Map<IEnumerable<Song>, List<SongDTO>>(Database.Songs.GetAll());
         }
 
         public IEnumerable<ChordDTO> GetChords()
         {
-            Mapper.Initialize(cfg => {
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Chord, ChordDTO>();
             });
-            return Mapper.Map<IEnumerable<Chord>, List<ChordDTO>>(Database.Chords.GetAll());
+            mapperConfig.AssertConfigurationIsValid();
+            var mapper = mapperConfig.CreateMapper();
+            return mapper.Map<IEnumerable<Chord>, List<ChordDTO>>(Database.Chords.GetAll());
         }
 
         public PerformerDTO GetPerformer(int? id)
@@ -57,10 +67,13 @@ namespace AMDM.BLL.Services
             var performer = Database.Performers.Get(id.Value);
             if (performer == null)
                 throw new ValidationException("Can't find performer", "");
-            Mapper.Initialize(cfg => {
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Performer, PerformerDTO>();
             });
-            return Mapper.Map<Performer, PerformerDTO>(performer);
+            mapperConfig.AssertConfigurationIsValid();
+            var mapper = mapperConfig.CreateMapper();
+            return mapper.Map<Performer, PerformerDTO>(performer);
         }
 
         public SongDTO GetSong(int? id)
@@ -70,10 +83,13 @@ namespace AMDM.BLL.Services
             var song = Database.Songs.Get(id.Value);
             if (song == null)
                 throw new ValidationException("Can't find song", "");
-            Mapper.Initialize(cfg => {
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Song, SongDTO>();
             });
-            return Mapper.Map<Song, SongDTO>(song);
+            mapperConfig.AssertConfigurationIsValid();
+            var mapper = mapperConfig.CreateMapper();
+            return mapper.Map<Song, SongDTO>(song);
         }
 
         public ChordDTO GetChord(int? id)
@@ -83,10 +99,13 @@ namespace AMDM.BLL.Services
             var chord = Database.Chords.Get(id.Value);
             if (chord == null)
                 throw new ValidationException("Can't find chord", "");
-            Mapper.Initialize(cfg => {
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Chord, ChordDTO>();
             });
-            return Mapper.Map<Chord, ChordDTO>(chord);
+            mapperConfig.AssertConfigurationIsValid();
+            var mapper = mapperConfig.CreateMapper();
+            return mapper.Map<Chord, ChordDTO>(chord);
         }
 
         public void ParseAmdm()
@@ -174,6 +193,17 @@ namespace AMDM.BLL.Services
                     var count = 0;
                     // List to store songs for performer object
                     List<Song> songList = new List<Song>();
+                    // Creating performer object to save in database 
+                    Performer performer = new Performer
+                    {
+                        Name = artistName,
+                        ImageLink = artistPhotoLink,
+                        Songs = songList,
+                        PerformerPageLink = artistLink,
+                        BiographyText = artistBio
+                    };
+                    Database.Performers.Create(performer);
+                    Database.Save();
                     foreach (var songCell in songListNode.SelectNodes("//table[@id='tablesort']/tr"))
                     {
                         var songName = "";
@@ -238,6 +268,25 @@ namespace AMDM.BLL.Services
                        // Debug.WriteLine("song name: " + songName + " views:" + songViews + "\nsong link: " + songLink + "\nvideo link: " + songVideoLink + "\nsong text: " + songText + "\n");
                         var chordNodes = chordContent.SelectNodes("//div[@id='song_chords']/img");
                         ICollection<Chord> chordList = new List<Chord>();
+                        int intViews = 0;
+                        songViews = songViews.Replace(",", "");
+                        Int32.TryParse(songViews, out intViews);
+                        // Creating song object to save in database
+                        Performer songPerformer = Database.Performers.GetByName(artistName);
+                        Song song = new Song
+                        {
+                            Name = songName,
+                            SongPageLink = songLink,
+                            Text = songText,
+                            Chords = chordList,
+                            VideoLink = songVideoLink,
+                            Views = intViews,
+                            PerformerId = songPerformer.Id
+                        };
+                        Database.Songs.Create(song);
+                        Database.Save();
+                        Database.Performers.GetByName(artistName).Songs.Add(song);
+                        songList.Add(song);
                         // Getting chords data
                         if (chordNodes != null)
                         {
@@ -256,39 +305,16 @@ namespace AMDM.BLL.Services
                                         Name = chordName,
                                         ImageLink = chordLink,
                                     };
+                                    Database.Chords.Create(chord);
+                                    Database.Save();
                                 }
-                                Database.Chords.Create(chord);
+                                Database.Chords.GetByName(chordName).Songs.Add(song);
+                                Database.Songs.GetByName(songName).Chords.Add(chord);
                                 chordList.Add(chord);
                             }
                         }
-                        int intViews = 0;
-                        songViews = songViews.Replace(",", "");
-                        Int32.TryParse(songViews, out intViews);
-                        // Creating song object to save in database     
-                        Song song = new Song
-                        {
-                            Name = songName,
-                            SongPageLink = songLink,
-                            Text = songText,
-                            Chords = chordList,
-                            VideoLink = songVideoLink,
-                            Views = intViews
-                        };
-                        Database.Songs.Create(song);
-                        songList.Add(song);
+                        Database.Save();
                     }
-                    // Creating performer object to save in database 
-                    Performer performer = new Performer
-                    {
-                        Name = artistName,
-                        ImageLink = artistPhotoLink,
-                        Songs = songList,
-                        PerformerPageLink = artistLink,
-                        BiographyText = artistBio
-                    };
-                    Database.Performers.Create(performer);
-                    Database.Save();
-                    Debug.WriteLine("Saved changes in database!");
                 }
             }
             Debug.WriteLine("ENDED SUCCESSFULLY");

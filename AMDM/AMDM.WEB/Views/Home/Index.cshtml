@@ -16,14 +16,16 @@
             <tr>
                 <td><p><img src="@p.ImageLink"><a href="@p.PerformerPageLink">@p.Name</a></p></td>
                 <td><p>@p.Songs.Count</p></td>
-                <td><p>
-                @foreach(AMDM.WEB.Models.SongViewModel s in p.Songs)
-                {
-                    @s.Name<br>
-                }
-                </p>
+                <td>
+                    <p>
+                        @foreach (AMDM.WEB.Models.SongViewModel s in p.Songs)
+                        {
+                            @s.Name<br>
+                        }
+                    </p>
                 </td>
             </tr>
         }
     </table>
 </div>
+    

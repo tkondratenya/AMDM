@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201608251620550_MigrateDB.Designer.cs">
       <DependentUpon>201608251620550_MigrateDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608291126441_DbMigration2.cs" />
+    <Compile Include="Migrations\201608291126441_DbMigration2.Designer.cs">
+      <DependentUpon>201608291126441_DbMigration2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ChordViewModel.cs" />
@@ -235,6 +239,7 @@
     <Compile Include="Models\SongViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Util\AutoMapperWebConfiguration.cs" />
     <Compile Include="Util\NinjectDependencyResolver.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +324,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201608251620550_MigrateDB.resx">
       <DependentUpon>201608251620550_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608291126441_DbMigration2.resx">
+      <DependentUpon>201608291126441_DbMigration2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

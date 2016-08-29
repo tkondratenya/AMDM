@@ -11,9 +11,14 @@ namespace AMDM.BLL.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Song> Songs { get; set; }
         public string ImageLink { get; set; }
         public string PerformerPageLink { get; set; }
         public string BiographyText { get; set; }
+        public ICollection<SongDTO> Songs { get; set; }
+
+        public PerformerDTO()
+        {
+            Songs = new List<SongDTO>();
+        }
     }
 }

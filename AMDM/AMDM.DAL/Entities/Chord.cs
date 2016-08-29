@@ -11,6 +11,11 @@ namespace AMDM.DAL.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImageLink { get; set; }
-        public ICollection<Song> Songs { get; set; }
+        public virtual ICollection<Song> Songs { get; set; }
+
+        public Chord()
+        {
+            Songs = new List<Song>();
+        }
     }
 }

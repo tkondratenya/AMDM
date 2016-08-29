@@ -9,9 +9,14 @@ namespace AMDM.WEB.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<SongViewModel> Songs { get; set; }
         public string ImageLink { get; set; }
         public string PerformerPageLink { get; set; }
         public string BiographyText { get; set; }
+        public ICollection<SongViewModel> Songs { get; set; }
+
+        public PerformerViewModel()
+        {
+            Songs = new List<SongViewModel>();
+        }
     }
 }

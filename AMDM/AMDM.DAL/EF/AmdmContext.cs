@@ -25,7 +25,6 @@ namespace AMDM.DAL.EF
                 .Map(t => t.MapLeftKey("SongId")
                 .MapRightKey("ChordId")
                 .ToTable("SongChord"));
-            modelBuilder.Entity<Performer>().HasMany(c => c.Songs).WithRequired(o => o.Performer);
         }
     }
 }

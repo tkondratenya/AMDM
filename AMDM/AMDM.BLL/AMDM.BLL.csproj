@@ -60,6 +60,7 @@
     <Compile Include="Interfaces\IAmdmService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AmdmService.cs" />
+    <Compile Include="Util\AutoMapperServicesConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AMDM.DAL\AMDM.DAL.csproj">
