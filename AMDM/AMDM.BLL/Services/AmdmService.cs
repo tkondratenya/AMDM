@@ -68,7 +68,9 @@ namespace AMDM.BLL.Services
                 throw new ValidationException("Can't find performer", "");
             var mapperConfig = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Performer, PerformerDTO>();
+                cfg.CreateMap<Performer, PerformerDTO>().MaxDepth(3);
+                cfg.CreateMap<Song, SongDTO>().MaxDepth(3);
+                cfg.CreateMap<Chord, ChordDTO>().MaxDepth(3);
             });
             mapperConfig.AssertConfigurationIsValid();
             var mapper = mapperConfig.CreateMapper();

@@ -1,0 +1,41 @@
+﻿@model AMDM.WEB.Models.PerformerViewModel
+
+@{
+    ViewBag.Title = "Performer";
+}
+
+<h2>@Model.Name</h2>
+<img src="@Model.ImageLink" style="height: 66px; width:66px;">
+<div class="performer-container">
+    <hr />
+    <div>
+        <h4>Биография</h4>
+        <p>@Model.BiographyText</p>
+    </div>
+
+    <div><h4>Подборы аккордов</h4></div>
+    <div class="div-songtable">
+        <div class="div-songtable-row">
+            <div class="div-songtable-col1">Название композиции</div>
+            <div class="div-songtable-col2" align="center">Видео</div>
+            <div class="div-songtable-col2" align="center">Просмотров</div>
+        </div>
+        @foreach (AMDM.WEB.Models.SongViewModel s in Model.Songs)
+        {
+            <div class="div-songtable-row">
+                <div class="div-songtable-col1">
+                    <a href="@s.SongPageLink">@s.Name</a>
+                </div>
+                <div class="div-songtable-col2" align="center">
+                    @if (@s.VideoLink.StartsWith("http:/"))
+                    {
+                        <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+                    }
+                </div>
+                <div class="div-songtable-col2" align="center">
+                    @s.Views
+                </div>
+            </div>
+        }
+    </div>
+</div>
