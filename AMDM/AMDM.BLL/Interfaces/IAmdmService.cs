@@ -16,7 +16,6 @@ namespace AMDM.BLL.Interfaces
         SongDTO GetSong(int? id);
         ChordDTO GetChord(int? id);
         void ParseAmdm();
-        void DatabaseCheck();
         void DeleteAllData();
         void Dispose();
     }

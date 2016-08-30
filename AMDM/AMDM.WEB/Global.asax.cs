@@ -18,8 +18,7 @@ namespace AMDM.WEB
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutoMapperWebConfiguration.Configure();
-            AutoMapperServicesConfiguration.Configure();
+            //AutoMapperConfiguration.Configure();
         }
     }
 }

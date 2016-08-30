@@ -12,7 +12,7 @@ namespace AMDM.WEB.Models
         public string ImageLink { get; set; }
         public string PerformerPageLink { get; set; }
         public string BiographyText { get; set; }
-        public ICollection<SongViewModel> Songs { get; set; }
+        public virtual ICollection<SongViewModel> Songs { get; set; }
 
         public PerformerViewModel()
         {

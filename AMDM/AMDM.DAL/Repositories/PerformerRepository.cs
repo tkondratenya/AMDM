@@ -21,7 +21,7 @@ namespace AMDM.DAL.Repositories
 
         public IEnumerable<Performer> GetAll()
         {
-            return db.Performers;
+            return db.Performers.Include(s => s.Songs.Select(c=> c.Chords));
         }
         public Performer Get(int id)
         {

@@ -27,17 +27,16 @@ namespace AMDM.BLL.Services
         }
         public IEnumerable<PerformerDTO> GetPerformers()
         {
-            return Mapper.Map<IEnumerable<Performer>, List<PerformerDTO>>(Database.Performers.GetAll());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Performer, PerformerDTO>().MaxDepth(3);
+                cfg.CreateMap<Song, SongDTO>().MaxDepth(3);
+                cfg.CreateMap<Chord, ChordDTO>().MaxDepth(3);
+            });
+            var mapper = config.CreateMapper();
+            return mapper.Map<IEnumerable<Performer>, List<PerformerDTO>>(Database.Performers.GetAll());
         }
 
-        public void DatabaseCheck()
-        {
-            var perfDto = Mapper.Map<Performer,PerformerDTO>(Database.Performers.Get(14));
-            var perf = Database.Performers.Get(14);
-            Debug.WriteLine("perf name and count:" + perf.Name + "  " + perf.Songs.Count);
-            Debug.WriteLine("perf name and count:" + perfDto.Name + "  " + perfDto.Songs.Count);
-
-        }
         public IEnumerable<SongDTO> GetSongs()
         {
             var mapperConfig = new MapperConfiguration(cfg =>
