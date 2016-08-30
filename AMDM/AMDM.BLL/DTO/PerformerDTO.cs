@@ -15,10 +15,5 @@ namespace AMDM.BLL.DTO
         public string PerformerPageLink { get; set; }
         public string BiographyText { get; set; }
         public virtual ICollection<SongDTO> Songs { get; set; }
-
-        public PerformerDTO()
-        {
-            Songs = new List<SongDTO>();
-        }
     }
 }

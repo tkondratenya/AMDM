@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AMDM.DAL.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AMDM.DAL.Entities
 {
-    public class Song
+    public class Song : IEntityWithName
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -18,11 +19,6 @@ namespace AMDM.DAL.Entities
 
         public int? PerformerId { get; set; }
         public virtual Performer Performer { get; set; }
-
-        public Song()
-        {
-            Chords = new List<Chord>();
-        }
 
     }
 }

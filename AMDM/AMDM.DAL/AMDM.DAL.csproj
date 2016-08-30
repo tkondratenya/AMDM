@@ -53,9 +53,11 @@
     <Compile Include="Entities\Chord.cs" />
     <Compile Include="Entities\Performer.cs" />
     <Compile Include="Entities\Song.cs" />
+    <Compile Include="Interfaces\IEntityWithName.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\ChordRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\PerformerRepository.cs" />

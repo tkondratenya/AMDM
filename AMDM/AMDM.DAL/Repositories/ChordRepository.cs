@@ -10,48 +10,10 @@ using System.Threading.Tasks;
 
 namespace AMDM.DAL.Repositories
 {
-    public class ChordRepository : IRepository<Chord>
+    public class ChordRepository : BaseRepository<Chord>
     {
-        private AmdmContext db;
-
-        public ChordRepository(AmdmContext context)
+        public ChordRepository(AmdmContext context) : base(context)
         {
-            this.db = context;
-        }
-
-        public IEnumerable<Chord> GetAll()
-        {
-            return db.Chords;
-        }
-        public Chord Get(int id)
-        {
-            return db.Chords.Find(id);
-        }
-        public Chord GetByName(string name)
-        {
-            return db.Chords.FirstOrDefault(x => x.Name == name);
-        }
-
-        public void Create(Chord chord)
-        {
-            db.Chords.Add(chord);
-        }
-
-        public void Update(Chord chord)
-        {
-            db.Entry(chord).State = EntityState.Modified;
-        }
-
-        public IEnumerable<Chord> Find(Func<Chord, Boolean> predicate)
-        {
-            return db.Chords.Where(predicate).ToList();
-        }
-
-        public void Delete(int id)
-        {
-            Chord chord = db.Chords.Find(id);
-            if (chord != null)
-                db.Chords.Remove(chord);
         }
     }
 }

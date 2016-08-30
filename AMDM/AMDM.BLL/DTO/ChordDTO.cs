@@ -13,10 +13,5 @@ namespace AMDM.BLL.DTO
         public string Name { get; set; }
         public string ImageLink { get; set; }
         public virtual ICollection<SongDTO> Songs { get; set; }
-
-        public ChordDTO()
-        {
-            Songs = new List<SongDTO>();
-        }
     }
 }

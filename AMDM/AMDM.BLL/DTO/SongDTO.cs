@@ -19,10 +19,5 @@ namespace AMDM.BLL.DTO
 
         public int? PerformerId { get; set; }
         public virtual PerformerDTO Performer { get; set; }
-
-        public SongDTO()
-        {
-            Chords = new List<ChordDTO>();
-        }
     }
 }

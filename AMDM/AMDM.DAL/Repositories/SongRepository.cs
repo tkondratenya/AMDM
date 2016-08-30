@@ -10,48 +10,10 @@ using System.Threading.Tasks;
 
 namespace AMDM.DAL.Repositories
 {
-    public class SongRepository : IRepository<Song>
+    public class SongRepository : BaseRepository<Song>
     {
-        private AmdmContext db;
-
-        public SongRepository(AmdmContext context)
+        public SongRepository(AmdmContext context) : base(context)
         {
-            this.db = context;
-        }
-
-        public IEnumerable<Song> GetAll()
-        {
-            return db.Songs;
-        }
-        public Song Get(int id)
-        {
-            return db.Songs.Find(id);
-        }
-        public Song GetByName(string name)
-        {
-            return db.Songs.FirstOrDefault(x => x.Name == name);
-        }
-
-        public void Create(Song song)
-        {
-            db.Songs.Add(song);
-        }
-
-        public void Update(Song song)
-        {
-            db.Entry(song).State = EntityState.Modified;
-        }
-
-        public IEnumerable<Song> Find(Func<Song, Boolean> predicate)
-        {
-            return db.Songs.Where(predicate).ToList();
-        }
-
-        public void Delete(int id)
-        {
-            Song song = db.Songs.Find(id);
-            if (song != null)
-                db.Songs.Remove(song);
         }
     }
 }

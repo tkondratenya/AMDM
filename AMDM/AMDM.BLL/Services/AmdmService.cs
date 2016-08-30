@@ -17,7 +17,7 @@ using System.Collections;
 
 namespace AMDM.BLL.Services
 {
-    public class AmdmService : IAmdmService
+    public class AmdmService
     {
         IUnitOfWork Database { get; set; }
 
@@ -25,90 +25,6 @@ namespace AMDM.BLL.Services
         {
             Database = uow;
         }
-        public IEnumerable<PerformerDTO> GetPerformers()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Performer, PerformerDTO>().MaxDepth(3);
-                cfg.CreateMap<Song, SongDTO>().MaxDepth(3);
-                cfg.CreateMap<Chord, ChordDTO>().MaxDepth(3);
-            });
-            var mapper = config.CreateMapper();
-            return mapper.Map<IEnumerable<Performer>, List<PerformerDTO>>(Database.Performers.GetAll());
-        }
-
-        public IEnumerable<SongDTO> GetSongs()
-        {
-            var mapperConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Song, SongDTO>();
-            });
-            mapperConfig.AssertConfigurationIsValid();
-            var mapper = mapperConfig.CreateMapper();
-            return mapper.Map<IEnumerable<Song>, List<SongDTO>>(Database.Songs.GetAll());
-        }
-
-        public IEnumerable<ChordDTO> GetChords()
-        {
-            var mapperConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Chord, ChordDTO>();
-            });
-            mapperConfig.AssertConfigurationIsValid();
-            var mapper = mapperConfig.CreateMapper();
-            return mapper.Map<IEnumerable<Chord>, List<ChordDTO>>(Database.Chords.GetAll());
-        }
-
-        public PerformerDTO GetPerformer(int? id)
-        {
-            if (id == null)
-                throw new ValidationException("There are no such id for performer", "");
-            var performer = Database.Performers.Get(id.Value);
-            if (performer == null)
-                throw new ValidationException("Can't find performer", "");
-            var mapperConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Performer, PerformerDTO>().MaxDepth(3);
-                cfg.CreateMap<Song, SongDTO>().MaxDepth(3);
-                cfg.CreateMap<Chord, ChordDTO>().MaxDepth(3);
-            });
-            mapperConfig.AssertConfigurationIsValid();
-            var mapper = mapperConfig.CreateMapper();
-            return mapper.Map<Performer, PerformerDTO>(performer);
-        }
-
-        public SongDTO GetSong(int? id)
-        {
-            if (id == null)
-                throw new ValidationException("There are no such id for song", "");
-            var song = Database.Songs.Get(id.Value);
-            if (song == null)
-                throw new ValidationException("Can't find song", "");
-            var mapperConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Song, SongDTO>();
-            });
-            mapperConfig.AssertConfigurationIsValid();
-            var mapper = mapperConfig.CreateMapper();
-            return mapper.Map<Song, SongDTO>(song);
-        }
-
-        public ChordDTO GetChord(int? id)
-        {
-            if (id == null)
-                throw new ValidationException("There are no such id for chord", "");
-            var chord = Database.Chords.Get(id.Value);
-            if (chord == null)
-                throw new ValidationException("Can't find chord", "");
-            var mapperConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Chord, ChordDTO>();
-            });
-            mapperConfig.AssertConfigurationIsValid();
-            var mapper = mapperConfig.CreateMapper();
-            return mapper.Map<Chord, ChordDTO>(chord);
-        }
-
         public void ParseAmdm()
         {
             bool artistWebPass = false;
