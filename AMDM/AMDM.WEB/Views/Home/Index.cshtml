@@ -3,22 +3,25 @@
 }
 @model IEnumerable<AMDM.WEB.Models.PerformerViewModel>
 
-<div class="panel panel-default">
-    <div class="panel-heading" align="center">
-        Популярные исполнители
-        <table class="table">
-            <tr class="page-header">
-                <td><p>Исполнитель</p></td>
-                <td><p>Подборов</p></td>
-            </tr>
-            @foreach (AMDM.WEB.Models.PerformerViewModel p in Model)
-            {
-                <tr>
-                    <td><p><img src="@p.ImageLink"><a href="@p.PerformerPageLink">@p.Name</a></p></td>
-                    <td><p>@p.Songs.Count</p></td>
-                </tr>
-            }
-        </table>
+<div align="center"><h4>Популярные исполнители </h4></div>
+<div class="div-table">
+    <div class="div-table-row">
+        <div class="div-table-col1">Исполнитель</div>
+        <div class="div-table-col2" align="center">Подборов</div>
     </div>
+    @foreach (AMDM.WEB.Models.PerformerViewModel p in Model)
+    {
+        <div class="div-table-row">
+            <div class="div-table-col1">
+                <img src="@p.ImageLink">
+                <a href="@p.PerformerPageLink">@p.Name</a>
+            </div>
+            <div class="div-table-col2" align="center">
+                @p.Songs.Count
+            </div>
+        </div>
+    }
 </div>
+
+            
     
