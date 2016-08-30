@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AMDM.DAL.Entities;
+using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +10,10 @@ namespace AMDM.BLL.Interfaces
 {
     public interface IDataService
     {
-        void ParsePerformers();
-        void ParseSongs();
+        List<Performer> ParsePerformers();
+        List<Song> ParseSongs(Performer performer);
+        void StoreParsedPerformers();
+        void StoreParsedSongs();
         void DeleteAllData();
     }
 }

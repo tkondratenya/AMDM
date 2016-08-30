@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AMDM.BLL.Services
 {
-    class SongService : BaseService, IModelService<SongDTO>
+    public class SongService : BaseService, IModelService<SongDTO>
     {
         public SongService(IUnitOfWork uow) : base(uow)
         {

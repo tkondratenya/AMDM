@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AMDM.BLL.Services
 {
-    class PerformerService : BaseService, IModelService<PerformerDTO>
+    public class PerformerService : BaseService, IModelService<PerformerDTO>
     {
         public PerformerService(IUnitOfWork uow) : base(uow)
         {

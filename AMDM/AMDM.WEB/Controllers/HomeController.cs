@@ -13,23 +13,27 @@ namespace AMDM.WEB.Controllers
 {
     public class HomeController : Controller
     {
-        IAmdmService amdmService;
-        public HomeController(IAmdmService serv)
+        IDataService dataService;
+        IModelService<PerformerDTO> performerService;
+        public HomeController(IDataService dServ, IModelService<PerformerDTO> pServ)
         {
-            amdmService = serv;
+            dataService = dServ;
+            performerService = pServ;
         }
 
         public ActionResult Index()
         {
+            /*
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<PerformerDTO, PerformerViewModel>().MaxDepth(3);
                 cfg.CreateMap<SongDTO, SongViewModel>().MaxDepth(3);
                 cfg.CreateMap<ChordDTO, ChordViewModel>().MaxDepth(3);
             });
             var mapper = config.CreateMapper();
-            IEnumerable<PerformerDTO> performerDtos = amdmService.GetPerformers();
+            IEnumerable<PerformerDTO> performerDtos = performerService.GetAll();
             List<PerformerViewModel> performers = mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(performerDtos);
-            return View(performers);
+            return View(performers);*/
+            return View();
         }
 
         [HttpGet]
@@ -41,20 +45,26 @@ namespace AMDM.WEB.Controllers
                 cfg.CreateMap<ChordDTO, ChordViewModel>().MaxDepth(3);
             });
             var mapper = config.CreateMapper();
-            PerformerDTO performerDto = amdmService.GetPerformer(id);
+            PerformerDTO performerDto = performerService.Get(id);
             PerformerViewModel performer = mapper.Map<PerformerDTO, PerformerViewModel>(performerDto);
             return View(performer);
         }
 
         [HttpGet]
-        public ActionResult Parse()
+        public ActionResult ParseSongs()
         {
-            amdmService.ParseAmdm();
+            dataService.StoreParsedSongs();
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult ParsePerformers()
+        {
+            dataService.StoreParsedPerformers();
             return RedirectToAction("Index");
         }
         public ActionResult DeleteAllData()
         {
-            amdmService.DeleteAllData();
+            dataService.DeleteAllData();
             return RedirectToAction("Index");
         }
 

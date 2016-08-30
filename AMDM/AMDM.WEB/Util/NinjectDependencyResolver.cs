@@ -6,6 +6,7 @@ using AMDM.BLL.Interfaces;
 using Ninject;
 using AMDM.BLL.Services;
 using System.Web.Mvc;
+using AMDM.BLL.DTO;
 
 namespace AMDM.WEB.Util
 {
@@ -27,7 +28,10 @@ namespace AMDM.WEB.Util
         }
         private void AddBindings()
         {
-            kernel.Bind<IAmdmService>().To<AmdmService>();
+            kernel.Bind<IDataService>().To<DataService>();
+            kernel.Bind<IModelService<PerformerDTO>>().To<PerformerService>();
+            kernel.Bind<IModelService<SongDTO>>().To<SongService>();
+            kernel.Bind<IModelService<ChordDTO>>().To<ChordService>();
         }
     }
 }

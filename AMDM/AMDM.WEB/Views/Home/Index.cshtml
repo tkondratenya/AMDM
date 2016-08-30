@@ -1,27 +1,7 @@
 ﻿@{
     ViewBag.Title = "EmGm";
 }
-@model IEnumerable<AMDM.WEB.Models.PerformerViewModel>
 
-<div align="center"><h4>Популярные исполнители </h4></div>
-<div class="div-table">
-    <div class="div-table-row">
-        <div class="div-table-col1">Исполнитель</div>
-        <div class="div-table-col2" align="center">Подборов</div>
-    </div>
-    @foreach (AMDM.WEB.Models.PerformerViewModel p in Model)
-    {
-        <div class="div-table-row">
-            <div class="div-table-col1">
-                <img src="@p.ImageLink">
-                <a href="/Home/Performer/@p.Id">@p.Name</a>
-            </div>
-            <div class="div-table-col2" align="center">
-                @p.Songs.Count
-            </div>
-        </div>
-    }
-</div>
 
             
     
