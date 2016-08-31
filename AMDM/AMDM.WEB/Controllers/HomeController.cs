@@ -23,30 +23,17 @@ namespace AMDM.WEB.Controllers
 
         public ActionResult Index()
         {
-            /*
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<PerformerDTO, PerformerViewModel>().MaxDepth(3);
-                cfg.CreateMap<SongDTO, SongViewModel>().MaxDepth(3);
-                cfg.CreateMap<ChordDTO, ChordViewModel>().MaxDepth(3);
-            });
-            var mapper = config.CreateMapper();
             IEnumerable<PerformerDTO> performerDtos = performerService.GetAll();
-            List<PerformerViewModel> performers = mapper.Map<IEnumerable<PerformerDTO>, List<PerformerViewModel>>(performerDtos);
-            return View(performers);*/
+            IEnumerable<PerformerViewModel> performers = Mapper.Map<IEnumerable<PerformerDTO>, IEnumerable<PerformerViewModel>>(performerDtos);
+            return View(performers);
             return View();
         }
 
         [HttpGet]
         public ActionResult Performer(int? id)
-        {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<PerformerDTO, PerformerViewModel>().MaxDepth(3);
-                cfg.CreateMap<SongDTO, SongViewModel>().MaxDepth(3);
-                cfg.CreateMap<ChordDTO, ChordViewModel>().MaxDepth(3);
-            });
-            var mapper = config.CreateMapper();
+        { 
             PerformerDTO performerDto = performerService.Get(id);
-            PerformerViewModel performer = mapper.Map<PerformerDTO, PerformerViewModel>(performerDto);
+            PerformerViewModel performer = Mapper.Map<PerformerDTO, PerformerViewModel>(performerDto);
             return View(performer);
         }
 

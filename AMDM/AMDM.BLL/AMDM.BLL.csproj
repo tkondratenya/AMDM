@@ -68,6 +68,7 @@
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\PerformerService.cs" />
     <Compile Include="Services\SongService.cs" />
+    <Compile Include="Util\EntityFrameworkUtil.cs" />
     <Compile Include="Util\EntityToDTOMappingProfile.cs" />
   </ItemGroup>
   <ItemGroup>

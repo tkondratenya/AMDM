@@ -11,6 +11,7 @@ using HtmlAgilityPack;
 using System.Diagnostics;
 using AMDM.BLL.DTO;
 using AMDM.DAL.Entities;
+using AMDM.BLL.Util;
 
 namespace AMDM.BLL.Services
 {
@@ -98,31 +99,44 @@ namespace AMDM.BLL.Services
 
         public void StoreParsedPerformers()
         {
-            List<Performer> Performers = ParsePerformers();
-            foreach(Performer performer in Performers)
+            IEnumerable<Performer> Performers = ParsePerformers();
+
+            foreach(var chunk in Performers.OrderBy(c => c.Id).AsQueryable().QueryChunksOfSize(30))
             {
-                Database.Performers.Create(performer);
+                foreach (Performer performer in chunk)
+                {
+                    Database.Performers.Create(performer);
+                }
+                Database.Save();
             }
-            Database.Save();
         }
 
         public void StoreParsedSongs()
         {
             IEnumerable<Performer> PerformersList = Database.Performers.GetAll();
 
-            foreach (Performer performer in PerformersList)
+            foreach (var chunk in PerformersList.OrderBy(c => c.Id).AsQueryable().QueryChunksOfSize(1))
             {
-                List<Song> Songs = ParseSongs(performer);
-                foreach (Song song in Songs)
+                foreach (Performer performer in chunk)
                 {
-                    IEnumerable<Chord> ChordsList = song.Chords;
-                    song.Chords = new List<Chord>();
-                    Database.Songs.Create(song);
-                    performer.Songs.Add(song);
-                    Song songToAdd = Database.Songs.GetByName(song.Name);
-                    foreach (Chord chord in ChordsList)
+                    List<Song> Songs = ParseSongs(performer);
+                    foreach (Song song in Songs)
                     {
-                        songToAdd.Chords.Add(chord);
+                        IEnumerable<Chord> ChordsList = song.Chords;
+                        song.Chords = new List<Chord>();
+                        Database.Songs.Create(song);
+                        performer.Songs.Add(song);
+                        foreach (Chord chord in ChordsList)
+                        {
+                            if(Database.Chords.GetByName(chord.Name)!=null)
+                            {
+                                song.Chords.Add(chord);
+                            }
+                            else {
+                                Database.Chords.Create(chord);
+                                song.Chords.Add(chord);
+                            }   
+                        }
                     }
                 }
                 Database.Save();
