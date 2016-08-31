@@ -125,6 +125,36 @@
             margin-top:3px;
             margin-bottom:3px;
         }
+        .div-songtable-col3-default,
+        .div-songtable-col3-des,
+        .div-songtable-col3-asc {
+            float: left; /*fix for  buggy browsers*/
+            display: table-column;
+            width: 25%;
+            margin-top:3px;
+            margin-bottom:3px;
+        }
+            .div-songtable-col3-default > a:hover,
+            .div-songtable-col3-des > a:hover,
+            .div-songtable-col3-asc > a:hover {
+                cursor:pointer;
+                text-decoration: none;
+                color:limegreen;
+            }
+            .arrow-up{
+                width: 0; 
+                height: 0; 
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-bottom: 5px solid black;
+            }
+            .arrow-down{
+                width: 0; 
+                height: 0; 
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid black;
+            }
         .div-songtable-col1 > a{
             margin-left:10px;
         }
@@ -135,16 +165,7 @@
 </head>
 <body>
     <script src='@Url.Content("~/Scripts/jquery-1.10.2.min.js")' type="text/javascript"></script>
-    <script type="text/javascript">
-        $('#views-sort').click(function () {
-            var cl = $(this).attr("class");
-            $(".div-songtable-row").detach().sort(function (a, b) {
-                var str1 = parseInt($(a).find('.' + cl).text(), 10);
-                var str2 = parseInt($(b).find('.' + cl).text(), 10);
-                return str1 > str2 ? -1 : 1;
-            }).appendTo($(".div-songtable"));
-        });
-    </script>
+    
     <div align="center" class="page-header" >
         <h1>EmGm</h1>
         <p class="lead">EmGm is a free Web site with collection of popular chords! </p>
