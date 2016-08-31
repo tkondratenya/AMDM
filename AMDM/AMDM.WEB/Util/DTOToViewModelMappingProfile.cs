@@ -12,9 +12,12 @@ namespace AMDM.WEB.Util
     {
         public DTOToViewModelMappingProfile()
         {
-            CreateMap<PerformerDTO, PerformerViewModel>().ReverseMap().MaxDepth(3);
-            CreateMap<SongDTO, SongViewModel>().ReverseMap().MaxDepth(3);
-            CreateMap<ChordDTO, ChordViewModel>().ReverseMap().MaxDepth(3);
+            CreateMap<PerformerDTO, PerformerViewModel>().MaxDepth(3);
+            CreateMap<SongDTO, SongViewModel>().MaxDepth(3);
+            CreateMap<ChordDTO, ChordViewModel>().MaxDepth(3);
+            CreateMap<PerformerViewModel, PerformerDTO>().MaxDepth(3);
+            CreateMap<SongViewModel, SongDTO>().MaxDepth(3);
+            CreateMap<ChordViewModel, ChordDTO>().MaxDepth(3);
         }
     }
 }

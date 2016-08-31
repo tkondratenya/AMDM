@@ -134,6 +134,17 @@
     </style>
 </head>
 <body>
+    <script src='@Url.Content("~/Scripts/jquery-1.10.2.min.js")' type="text/javascript"></script>
+    <script type="text/javascript">
+        $('#views-sort').click(function () {
+            var cl = $(this).attr("class");
+            $(".div-songtable-row").detach().sort(function (a, b) {
+                var str1 = parseInt($(a).find('.' + cl).text(), 10);
+                var str2 = parseInt($(b).find('.' + cl).text(), 10);
+                return str1 > str2 ? -1 : 1;
+            }).appendTo($(".div-songtable"));
+        });
+    </script>
     <div align="center" class="page-header" >
         <h1>EmGm</h1>
         <p class="lead">EmGm is a free Web site with collection of popular chords! </p>

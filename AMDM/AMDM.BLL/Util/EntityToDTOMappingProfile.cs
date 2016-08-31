@@ -14,8 +14,11 @@ namespace AMDM.BLL.Util
         public EntityToDTOMappingProfile()
         {
             CreateMap<Performer, PerformerDTO>().MaxDepth(3);
-            CreateMap<Song, SongDTO>().ReverseMap().MaxDepth(3);
-            CreateMap<Chord, ChordDTO>().ReverseMap().MaxDepth(3);
+            CreateMap<Song, SongDTO>().MaxDepth(3);
+            CreateMap<Chord, ChordDTO>().MaxDepth(3);
+            CreateMap<PerformerDTO, Performer>().MaxDepth(3);
+            CreateMap<SongDTO, Song>().MaxDepth(3);
+            CreateMap<ChordDTO, Chord>().MaxDepth(3);
         }
     }
 }

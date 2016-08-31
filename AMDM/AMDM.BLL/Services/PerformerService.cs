@@ -19,7 +19,7 @@ namespace AMDM.BLL.Services
         }
         public IEnumerable<PerformerDTO> GetAll()
         {
-            return Mapper.Map<IEnumerable<Performer>, List<PerformerDTO>>(Database.Performers.GetAll());
+            return Mapper.Map<IEnumerable<Performer>, IEnumerable<PerformerDTO>>(Database.Performers.GetAll());
         }
         public PerformerDTO Get(int? id)
         {
