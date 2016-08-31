@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
@@ -9,37 +9,44 @@
     @Scripts.Render("~/bundles/modernizr")
     <style>
         .container {
-             max-width: 1680px;
+            max-width: 1680px;
         }
-        .navbar{
+
+        .navbar {
             background-color: white;
-            border-color:white;
+            border-color: white;
         }
+
         .nav.navbar-nav li a {
             color: royalblue;
-            border-radius:6px;
+            border-radius: 6px;
         }
+
         .navbar-nav .open .dropdown-menu > li > a:hover,
         .navbar-nav .open .dropdown-menu > li > a:focus {
             background-color: limegreen;
-            color:white;
-            border-radius:6px;
+            color: white;
+            border-radius: 6px;
         }
+
         .nav.navbar-nav > li > a:hover,
-        .nav.navbar-nav > li > a:focus{
+        .nav.navbar-nav > li > a:focus {
             background-color: limegreen;
             color: white;
         }
+
         .nav.navbar-nav > .open > a,
         .nav.navbar-nav > .open > a:hover,
-        .nav.navbar-nav > .open > a:focus{
+        .nav.navbar-nav > .open > a:focus {
             background-color: limegreen;
             color: white;
         }
+
         .open > .dropdown-menu {
-            border:none;
-            box-shadow:none;
+            border: none;
+            box-shadow: none;
         }
+
         .div-table {
             display: table;
             width: 100%;
@@ -48,82 +55,136 @@
             border-collapse: collapse;
             border-spacing: 5px; /*cellspacing:poor IE support for  this*/
         }
+
         .div-table-row {
             display: table-row;
             width: 100%;
-            height:30px;
+            height: 30px;
             clear: both;
-            border-bottom:1px solid #ddd;
+            border-bottom: 1px solid #ddd;
         }
+
         .div-table-col1 {
             float: left; /*fix for  buggy browsers*/
             display: table-column;
             width: 50%;
-            margin-left:6px;
-            margin-top:6px;
-            margin-bottom:6px;
+            margin-left: 6px;
+            margin-top: 6px;
+            margin-bottom: 6px;
         }
+
         .div-table-col2 {
             float: left; /*fix for  buggy browsers*/
             display: table-column;
             width: 25%;
-            margin-top:6px;
-            margin-bottom:6px;
+            margin-top: 6px;
+            margin-bottom: 6px;
         }
-        .div-table-col1 > a{
-            margin-left:10px;
+
+        .div-table-col1 > a {
+            margin-left: 10px;
         }
-        .div-table-col1 > img{
-            border-radius:6px;
+
+        .div-table-col1 > img {
+            border-radius: 6px;
         }
-        .div-table-row:hover{
-           background-color: #f5f5f5;
+
+        .div-table-row:hover {
+            background-color: #f5f5f5;
         }
 
         .div-songtable {
             display: table;
-            padding-top:15px;
+            padding-top: 15px;
             width: 100%;
             background-color: white;
             border: none;
             border-collapse: collapse;
             border-spacing: 5px; /*cellspacing:poor IE support for  this*/
         }
+
         .div-songtable-row {
             display: table-row;
             width: 100%;
-            height:30px;
+            height: 30px;
             clear: both;
-            border-bottom:1px solid #ddd;
+            border-bottom: 1px solid #ddd;
         }
-        .div-songtable-row-header {
+
+        .div-songtable-header {
             display: table-row;
             width: 100%;
-            height:30px;
+            height: 30px;
             clear: both;
-            border-bottom:1px solid #ddd;
+            border-bottom: 1px solid #ddd;
         }
+
         .div-songtable-col1 {
             float: left; /*fix for  buggy browsers*/
             display: table-column;
             width: 35%;
-            margin-left:3px;
-            margin-top:3px;
-            margin-bottom:3px;
+            margin-left: 3px;
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
+
         .div-songtable-col2 {
             float: left; /*fix for  buggy browsers*/
             display: table-column;
             width: 25%;
-            margin-top:3px;
-            margin-bottom:3px;
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
+
         .div-songtable-col3 {
             float: left; /*fix for  buggy browsers*/
             display: table-column;
             width: 25%;
-            margin-top:3px;
-            margin-bottom:3px;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .div-songtable-paging { 
+            width: 40%;
+            float: left; /*fix for  buggy browsers*/
+            font-size:1.5em;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .div-songtable-paging  > .paging-count {
+            display: inline-block;
+            width:60%;
+            font-size:75%;
+        }
+        .div-songtable-paging > .paging-count > div {
+            display: inline-block;
+            font-size:80%;
+        }
+        .div-songtable-paging > .paging-count > div a {
+            display: inline-block;
+            margin-left:10px;
+        }
+        .div-songtable-paging > .paging-count > div a:hover{
+                cursor: pointer;
+                text-decoration: none;
+                color: limegreen;
+        }
+        .div-songtable-paging  > .paging-nav {
+            display: block;
+            width:150%;
+            font-size:75%;
+            float:left;
+            margin:5px;
+        }
+        .div-songtable-paging  > .paging-nav > a {
+            display: inline-block;
+            margin-right:5px;
+            border:1px solid #ddd;
+            min-width:20px;
+        }
+        .div-songtable-paging  > .paging-nav > a:hover {
+            cursor: pointer;
+                text-decoration: none;
+                color: limegreen;
         }
         .div-songtable-col3-default,
         .div-songtable-col3-des,
@@ -131,42 +192,61 @@
             float: left; /*fix for  buggy browsers*/
             display: table-column;
             width: 25%;
-            margin-top:3px;
-            margin-bottom:3px;
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
+
             .div-songtable-col3-default > a:hover,
             .div-songtable-col3-des > a:hover,
             .div-songtable-col3-asc > a:hover {
-                cursor:pointer;
+                cursor: pointer;
                 text-decoration: none;
-                color:limegreen;
+                color: limegreen;
             }
-            .arrow-up{
-                width: 0; 
-                height: 0; 
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-bottom: 5px solid black;
-            }
-            .arrow-down{
-                width: 0; 
-                height: 0; 
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 5px solid black;
-            }
-        .div-songtable-col1 > a{
-            margin-left:10px;
+
+        .arrow-up {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid black;
         }
-        .div-songtable-row:hover{
-           background-color: #f5f5f5;
+
+        .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid black;
+        }
+
+        .div-songtable-col1 > a {
+            margin-left: 10px;
+        }
+
+        .div-songtable-row:hover {
+            background-color: #f5f5f5;
+        }
+        .simplePagerNav{
+            float:left;
+            width: 60%;
+            height: 30px;
+        }
+        .simplePagerNav > div{
+            display: inline-block;
+            margin:2px 2px 2px 2px;
+        }
+        .simplePagerContainer{
+            width: 100%;
+            float:left;
         }
     </style>
 </head>
 <body>
     <script src='@Url.Content("~/Scripts/jquery-1.10.2.min.js")' type="text/javascript"></script>
-    
-    <div align="center" class="page-header" >
+    <script src='@Url.Content("~/Scripts/quickpager.jquery.js")' type="text/javascript"></script>
+
+    <div align="center" class="page-header">
         <h1>EmGm</h1>
         <p class="lead">EmGm is a free Web site with collection of popular chords! </p>
     </div>
@@ -176,7 +256,7 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown open">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                           role="button" aria-expanded="false" aria-haspopup="true">Аккорды <span class="caret"></span></a>
+                           role="button" aria-expanded="false" aria-haspopup="true">Аккорды<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Популярные исполнители", "Index", "Home")</li>
                         </ul>
