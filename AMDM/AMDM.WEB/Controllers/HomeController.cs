@@ -8,17 +8,20 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using System.Web.Mvc;
+using PagedList;
 
 namespace AMDM.WEB.Controllers
 {
     public class HomeController : Controller
     {
         IDataService dataService;
-        IModelService<PerformerDTO> performerService;
-        public HomeController(IDataService dServ, IModelService<PerformerDTO> pServ)
+        IPerformerService performerService;
+        ISongService songService;
+        public HomeController(IDataService dServ, IPerformerService pServ, ISongService sServ)
         {
             dataService = dServ;
             performerService = pServ;
+            songService = sServ;
         }
 
         public ActionResult Index()
@@ -26,15 +29,29 @@ namespace AMDM.WEB.Controllers
             IEnumerable<PerformerDTO> performerDtos = performerService.GetAll();
             IEnumerable<PerformerViewModel> performers = Mapper.Map<IEnumerable<PerformerDTO>, IEnumerable<PerformerViewModel>>(performerDtos);
             return View(performers);
-            return View();
         }
 
-        [HttpGet]
-        public ActionResult Performer(int? id)
-        { 
+        public ActionResult Performer(int? id, string sortOption, int pageSize = 10, int page = 1)
+        {            
             PerformerDTO performerDto = performerService.Get(id);
             PerformerViewModel performer = Mapper.Map<PerformerDTO, PerformerViewModel>(performerDto);
-            return View(performer);
+            IEnumerable<SongViewModel> songs = performer.Songs;
+            switch (sortOption)
+            {
+                case "views_acs":
+                    songs = songs.OrderBy(s => s.Views);
+                    break;
+                case "views_desc":
+                    songs = songs.OrderByDescending(s => s.Views);
+                    break;
+                default:
+                    songs = songs.OrderBy(s => s.Id);
+                    break;
+            }
+            var pagedList = songs.ToPagedList(page, pageSize);
+            return Request.IsAjaxRequest()
+                ? (ActionResult)PartialView("PartialSongList", pagedList)
+                : View(performer);
         }
 
         [HttpGet]

@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Performer";
 }
+@using PagedList.Mvc;
+@using PagedList;
+
 
 <h2>@Model.Name</h2>
 <img src="@Model.ImageLink" style="height: 66px; width:66px;">
@@ -22,32 +25,69 @@
             </div>
              <div class="paging-nav"></div>             
         </div>
-        <div class="div-songtable">
-            <div class="div-songtable-header">
-                <div class="div-songtable-col1">Название композиции</div>
-                <div class="div-songtable-col2" align="center">Видео</div>
-                <div id="views-sort" class="div-songtable-col3-default" align="center"> <a>Просмотров</a><div class="arrow"></div></div>
-            </div>
-            @foreach (AMDM.WEB.Models.SongViewModel s in Model.Songs)
-            {
-                <div class="div-songtable-row">
-                    <div class="div-songtable-col1">
-                        <a href="@s.SongPageLink">@s.Name</a>
-                    </div>
-                    <div class="div-songtable-col2" align="center">
-                        @if (@s.VideoLink.StartsWith("http:/"))
-                        {
-                            <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
-                        }
-                    </div>
-                    <div class="div-songtable-col3" align="center">
-                        @s.Views
-                    </div>
-                </div>
-            }
-        </div>
+    @{ 
+        IPagedList Songs = Model.Songs.ToPagedList(1, 10);
+    }
+    <div id="song-pagination">
+        @Html.Partial("PartialSongList", Songs)
+    </div>
 </div>
 
 <script type="text/javascript">
-    $('.div-songtable').pagination();
+
+        function ChangeUrl(page, url) {
+            if (typeof (history.pushState) != "undefined") {
+                var obj = { Page: page, Url: url };
+                history.pushState(null, obj.Page, obj.Url);
+            } else {
+                alert("Browser does not support HTML5.");
+            }
+        }
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+
+        $(function () {
+
+            $('body').on('click', '#views-sort', function (event) {
+                event.preventDefault();   
+                var currentSortOption = getUrlVars()['sortOption'];
+                var sort;
+                switch (currentSortOption) {
+                    case "views_acs":
+                        sort = 'sortOption=views_acs';
+                    break;
+                    case "views_desc":
+                        sort = 'sortOption=views_desc';
+                    break;
+                default:
+                    sort = '';
+                    break;
+                }
+                if (currentSortOption != 'views_acs' && currentSortOption != 'views_desc') {
+                    sort = 'sortOption=views_acs';
+                }
+                if (sort != '') {
+                    sort = '&' + sort;
+                }
+                var url = '/Home/Performer/@Model.Id?' + sort;
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        ChangeUrl('index', url);
+                        $('#song-pagination').html(result);
+                    }
+                });
+            });
+
+        });
+
 </script>

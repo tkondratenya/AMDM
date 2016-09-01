@@ -13,6 +13,8 @@ namespace AMDM.DAL.Interfaces
         IRepository<Performer> Performers { get; }
         IRepository<Song> Songs { get; }
         IRepository<Chord> Chords { get; }
+
+        IEnumerable<Song> GetSongsByPerformerId(int? performerId);
         void Save();
         void Truncate();
     }

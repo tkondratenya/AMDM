@@ -51,6 +51,13 @@ namespace AMDM.DAL.Repositories
             }
         }
 
+        public IEnumerable<Song> GetSongsByPerformerId(int? performerId)
+        {
+            return (from e in db.Songs
+                    where e.PerformerId == performerId
+                    select e);
+        }
+
         public void Save()
         {
             db.SaveChanges();

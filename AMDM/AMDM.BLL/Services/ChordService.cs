@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AMDM.BLL.Services
 {
-    public class ChordService : BaseService,IModelService<ChordDTO>
+    public class ChordService : BaseService, IChordService
     {
 
         public ChordService(IUnitOfWork uow) : base(uow)

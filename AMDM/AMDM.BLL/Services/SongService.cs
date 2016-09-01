@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AMDM.BLL.Services
 {
-    public class SongService : BaseService, IModelService<SongDTO>
+    public class SongService : BaseService, ISongService
     {
         public SongService(IUnitOfWork uow) : base(uow)
         {
@@ -29,6 +29,10 @@ namespace AMDM.BLL.Services
             if (song == null)
                 throw new ValidationException("Can't find song", "");
             return Mapper.Map<Song, SongDTO>(song);
+        }
+        public IEnumerable<SongDTO> GetSongsByPerformerId(int? performerId)
+        {
+            return Mapper.Map<IEnumerable<Song>, List<SongDTO>>(Database.GetSongsByPerformerId(performerId));
         }
     }
 }

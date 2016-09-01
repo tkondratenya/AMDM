@@ -11,7 +11,7 @@ namespace AMDM.DAL.Repositories
 {
     public class BaseRepository<T> : IRepository<T> where T : class, IEntityWithName
     {
-        private AmdmContext db;
+        public AmdmContext db;
 
         public BaseRepository(AmdmContext context)
         {

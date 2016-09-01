@@ -29,9 +29,9 @@ namespace AMDM.WEB.Util
         private void AddBindings()
         {
             kernel.Bind<IDataService>().To<DataService>();
-            kernel.Bind<IModelService<PerformerDTO>>().To<PerformerService>();
-            kernel.Bind<IModelService<SongDTO>>().To<SongService>();
-            kernel.Bind<IModelService<ChordDTO>>().To<ChordService>();
+            kernel.Bind<IPerformerService>().To<PerformerService>();
+            kernel.Bind<ISongService>().To<SongService>();
+            kernel.Bind<IChordService>().To<ChordService>();
         }
     }
 }

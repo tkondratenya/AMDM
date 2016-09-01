@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace AMDM.BLL.Interfaces
 {
-    public interface IModelService<T> where T : class
+    public interface IPerformerService
     {
-        IEnumerable<T> GetAll();
-        T Get(int? id);
+        IEnumerable<PerformerDTO> GetAll();
+        PerformerDTO Get(int? id);
     }
 }

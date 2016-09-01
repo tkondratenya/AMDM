@@ -1,0 +1,29 @@
+﻿@model IPagedList<AMDM.WEB.Models.SongViewModel>
+@using PagedList.Mvc
+@using PagedList
+<div class="div-songtable">
+    <div class="div-songtable-header">
+        <div class="div-songtable-col1">Название композиции</div>
+        <div class="div-songtable-col2" align="center">Видео</div>
+        <div id="views-sort" class="div-songtable-col3-default" align="center"> <a>Просмотров</a><div class="arrow"></div></div>
+    </div>
+    @foreach (AMDM.WEB.Models.SongViewModel s in Model)
+            {
+        <div class="div-songtable-row">
+            <div class="div-songtable-col1">
+                <a href="@s.SongPageLink">@s.Name</a>
+            </div>
+            <div class="div-songtable-col2" align="center">
+                @if (@s.VideoLink.StartsWith("http:/"))
+                {
+                    <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+                }
+            </div>
+            <div class="div-songtable-col3" align="center">
+                @s.Views
+            </div>
+        </div>
+    }
+</div>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Performer", new { page }))
+
