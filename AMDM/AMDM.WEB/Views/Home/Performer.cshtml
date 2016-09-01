@@ -26,7 +26,9 @@
              <div class="paging-nav"></div>             
         </div>
     @{ 
-        IPagedList Songs = Model.Songs.ToPagedList(1, 10);
+        int page = ViewBag.page;
+        int pageSize = ViewBag.pageSize;
+        IPagedList Songs = Model.Songs.ToPagedList(page, pageSize);
     }
     <div id="song-pagination">
         @Html.Partial("PartialSongList", Songs)
@@ -56,17 +58,73 @@
         }
 
         $(function () {
+            var currentPageSize = '&pageSize=' + 10;
+
+            $('body').on('click', '#song-pagination .pagination a', function (event) {
+                event.preventDefault();
+                console.log('page');
+                var url = $(this).attr('href');
+                url = url + currentPageSize;
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    success: function (result) {
+                        ChangeUrl('index', url);
+                        $('#song-pagination').html(result);
+                    }
+                });
+            });
+
+            $('body').on('click', '#pagin20', function (event) {
+                currentPageSize = '&pageSize=' + 20;
+                event.preventDefault();
+                var url = '/Home/Performer/@Model.Id?' + currentPageSize;
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    success: function (result) {
+                        ChangeUrl('index', url);
+                        $('#song-pagination').html(result);
+                    }
+                });
+            });
+            $('body').on('click', '#pagin15', function (event) {
+                currentPageSize = '&pageSize=' + 15;
+                event.preventDefault();
+                var url = '/Home/Performer/@Model.Id?' + currentPageSize;
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    success: function (result) {
+                        ChangeUrl('index', url);
+                        $('#song-pagination').html(result);
+                    }
+                });
+            });
+            $('body').on('click', '#pagin10', function (event) {
+                currentPageSize = '&pageSize=' + 10;
+                event.preventDefault();
+                var url = '/Home/Performer/@Model.Id?' + currentPageSize;
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    success: function (result) {
+                        ChangeUrl('index', url);
+                        $('#song-pagination').html(result);
+                    }
+                });
+            });
 
             $('body').on('click', '#views-sort', function (event) {
-                event.preventDefault();   
+                event.preventDefault();
                 var currentSortOption = getUrlVars()['sortOption'];
                 var sort;
                 switch (currentSortOption) {
                     case "views_acs":
-                        sort = 'sortOption=views_acs';
+                        sort = 'sortOption=views_desc';
                     break;
                     case "views_desc":
-                        sort = 'sortOption=views_desc';
+                        sort = 'sortOption=views_acs';
                     break;
                 default:
                     sort = '';
@@ -78,7 +136,7 @@
                 if (sort != '') {
                     sort = '&' + sort;
                 }
-                var url = '/Home/Performer/@Model.Id?' + sort;
+                var url = '/Home/Performer/@Model.Id?' + sort + currentPageSize;
                 $.ajax({
                     url: url,
                     success: function(result) {

@@ -48,6 +48,8 @@ namespace AMDM.WEB.Controllers
                     songs = songs.OrderBy(s => s.Id);
                     break;
             }
+            ViewBag.page = page;
+            ViewBag.pageSize = pageSize;
             var pagedList = songs.ToPagedList(page, pageSize);
             return Request.IsAjaxRequest()
                 ? (ActionResult)PartialView("PartialSongList", pagedList)
