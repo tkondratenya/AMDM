@@ -30,12 +30,29 @@
         int pageSize = ViewBag.pageSize;
         IPagedList Songs = Model.Songs.ToPagedList(page, pageSize);
     }
-    <div id="song-pagination">
-        @Html.Partial("PartialSongList", Songs)
-    </div>
+    
+        <div class="div-songtable">
+            <div class="div-songtable-header">
+                <div class="div-songtable-col1">Название композиции</div>
+                <div class="div-songtable-col2" align="center">Видео</div>
+                <div id="views-sort" class="div-songtable-col3" align="center"> <a>Просмотров</a><div class="arrow"></div></div>
+            </div>
+            <div id="song-pagination" class="div-songtable">
+                @Html.Partial("PartialSongList", Songs)
+            </div>
+        </div>
 </div>
 
 <script type="text/javascript">
+
+    window.addEventListener("popstate", function (e) {
+        $.ajax({
+            url: location.href,
+            success: function (result) {
+                $('#song-pagination').html(result);
+            }
+        });
+    });
 
         function ChangeUrl(page, url) {
             if (typeof (history.pushState) != "undefined") {
@@ -87,6 +104,7 @@
                         $('#song-pagination').html(result);
                     }
                 });
+                $('#views-sort').find("div").attr("class", "arrow");
             });
             $('body').on('click', '#pagin15', function (event) {
                 currentPageSize = '&pageSize=' + 15;
@@ -100,6 +118,7 @@
                         $('#song-pagination').html(result);
                     }
                 });
+                $('#views-sort').find("div").attr("class", "arrow");
             });
             $('body').on('click', '#pagin10', function (event) {
                 currentPageSize = '&pageSize=' + 10;
@@ -113,6 +132,7 @@
                         $('#song-pagination').html(result);
                     }
                 });
+                $('#views-sort').find("div").attr("class", "arrow");
             });
 
             $('body').on('click', '#views-sort', function (event) {
@@ -122,9 +142,11 @@
                 switch (currentSortOption) {
                     case "views_acs":
                         sort = 'sortOption=views_desc';
+                        $('#views-sort').find("div").attr("class", "arrow-down");
                     break;
                     case "views_desc":
                         sort = 'sortOption=views_acs';
+                        $('#views-sort').find("div").attr("class", "arrow-up");
                     break;
                 default:
                     sort = '';
@@ -132,6 +154,7 @@
                 }
                 if (currentSortOption != 'views_acs' && currentSortOption != 'views_desc') {
                     sort = 'sortOption=views_acs';
+                    $('#views-sort').find("div").attr("class", "arrow-up");
                 }
                 if (sort != '') {
                     sort = '&' + sort;

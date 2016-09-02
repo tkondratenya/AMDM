@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +13,11 @@ namespace AMDM.DAL.Repositories
     public class BaseRepository<T> : IRepository<T> where T : class, IEntityWithName
     {
         public AmdmContext db;
-
         public BaseRepository(AmdmContext context)
         {
             this.db = context;
         }
+
         public IEnumerable<T> GetAll()
         {
             return db.Set<T>();

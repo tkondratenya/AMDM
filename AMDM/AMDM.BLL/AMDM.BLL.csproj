@@ -45,6 +45,8 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,9 +58,11 @@
     <Compile Include="DTO\ChordDTO.cs" />
     <Compile Include="DTO\PerformerDTO.cs" />
     <Compile Include="DTO\SongDTO.cs" />
+    <Compile Include="Infrastructure\CacheData.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Interfaces\IBaseService.cs" />
+    <Compile Include="Interfaces\ICacheProvider.cs" />
     <Compile Include="Interfaces\IChordService.cs" />
     <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Interfaces\IPerformerService.cs" />
@@ -69,8 +73,10 @@
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\PerformerService.cs" />
     <Compile Include="Services\SongService.cs" />
+    <Compile Include="Util\CacheProvider.cs" />
     <Compile Include="Util\EntityFrameworkUtil.cs" />
     <Compile Include="Util\EntityToDTOMappingProfile.cs" />
+    <Compile Include="Util\HttpCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AMDM.DAL\AMDM.DAL.csproj">

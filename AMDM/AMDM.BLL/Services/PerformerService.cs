@@ -6,6 +6,7 @@ using AMDM.DAL.Interfaces;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace AMDM.BLL.Services
 {
     public class PerformerService : BaseService, IPerformerService
     {
+
         public PerformerService(IUnitOfWork uow) : base(uow)
         {
         }
@@ -25,7 +27,18 @@ namespace AMDM.BLL.Services
         {
             if (id == null)
                 throw new ValidationException("There are no such id for performer", "");
-            var performer = Database.Performers.Get(id.Value);
+            Performer performer;
+            string keyIndex = "performer_" + id;
+            if (!Cache.Get(keyIndex, out performer))
+            {
+                performer = Database.Performers.Get(id.Value);
+                Cache.Set(keyIndex, performer,10);
+                Debug.WriteLine("Set performer in cache!");
+            }
+            else
+            {
+                Debug.WriteLine("Found performer in cache!");
+            }
             if (performer == null)
                 throw new ValidationException("Can't find performer", "");
             return Mapper.Map<Performer, PerformerDTO>(performer);
