@@ -36,23 +36,17 @@ namespace AMDM.WEB.Controllers
         {            
             PerformerDTO performerDto = performerService.Get(id);
             PerformerViewModel performer = Mapper.Map<PerformerDTO, PerformerViewModel>(performerDto);
-            IEnumerable<SongViewModel> songs = performer.Songs;
-            switch (sortOption)
+            if (sortOption == null)
             {
-                case "views_acs":
-                    songs = songs.OrderBy(s => s.Views);
-                    break;
-                case "views_desc":
-                    songs = songs.OrderByDescending(s => s.Views);
-                    break;
-                default:
-                    songs = songs.OrderBy(s => s.Id);
-                    break;
+                sortOption = "default";
             }
+            IEnumerable<SongDTO> songDtos = songService.GetSongsChunkWithOrder(performer.Id, sortOption, page, pageSize);
+            IEnumerable<SongViewModel> songs = Mapper.Map<IEnumerable<SongDTO>, IEnumerable<SongViewModel>>(songDtos);
+            int songsCount = songService.GetSongsCount(performer.Id);
+            var pagedList = new StaticPagedList<SongViewModel>(songs, page, pageSize, songsCount);
             ViewBag.page = page;
             ViewBag.pageSize = pageSize;
-            var pagedList = songs.ToPagedList(page, pageSize);
-
+            ViewBag.pagedList = pagedList;
             return Request.IsAjaxRequest()
                 ? (ActionResult)PartialView("PartialSongList", pagedList)
                 : View(performer);

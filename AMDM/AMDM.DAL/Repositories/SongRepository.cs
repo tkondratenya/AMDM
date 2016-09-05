@@ -27,14 +27,21 @@ namespace AMDM.DAL.Repositories
             if (order.Equals("views_desc"))
             {
                 songs = db.Songs.Where(s => s.PerformerId == performerId)
-                .OrderBy(s => s.Views)
-                .Skip((skip) * take)
+                .OrderByDescending(s => s.Views)
+                .Skip((skip-1) * take)
                 .Take(take);
+            }
+            else if (order.Equals("views_acs"))
+            {
+                songs = db.Songs.Where(s => s.PerformerId == performerId)
+                    .OrderBy(s => s.Views)
+                    .Skip((skip - 1) * take)
+                    .Take(take);
             }
             else
             {
                 songs = db.Songs.Where(s => s.PerformerId == performerId)
-                    .OrderBy(s => s.Views)
+                    .OrderBy(s => s.Id)
                     .Skip((skip - 1) * take)
                     .Take(take);
             }

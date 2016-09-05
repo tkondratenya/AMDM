@@ -1,4 +1,4 @@
-﻿@model IPagedList<AMDM.WEB.Models.SongViewModel>
+﻿@model StaticPagedList<AMDM.WEB.Models.SongViewModel>
 @using PagedList.Mvc
 @using PagedList
 
@@ -20,5 +20,5 @@
         </div>
     }
 
-@Html.PagedListPager((IPagedList)Model, page => Url.Action("Performer", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Performer", new { page }))
 

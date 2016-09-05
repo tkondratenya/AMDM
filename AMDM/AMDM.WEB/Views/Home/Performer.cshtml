@@ -26,9 +26,10 @@
              <div class="paging-nav"></div>             
         </div>
     @{ 
-        int page = ViewBag.page;
+        /*int page = ViewBag.page;
         int pageSize = ViewBag.pageSize;
-        IPagedList Songs = Model.Songs.ToPagedList(page, pageSize);
+        Songs = Model.Songs.ToPagedList(page, pageSize);*/
+        StaticPagedList<AMDM.WEB.Models.SongViewModel> pagedList = ViewBag.pagedList;
     }
     
         <div class="div-songtable">
@@ -38,7 +39,7 @@
                 <div id="views-sort" class="div-songtable-col3" align="center"> <a>Просмотров</a><div class="arrow"></div></div>
             </div>
             <div id="song-pagination" class="div-songtable">
-                @Html.Partial("PartialSongList", Songs)
+                @Html.Partial("PartialSongList", pagedList)
             </div>
         </div>
 </div>
@@ -81,7 +82,8 @@
                 event.preventDefault();
                 console.log('page');
                 var url = $(this).attr('href');
-                url = url + currentPageSize;
+                var currentSortOption = '&sortOption='+getUrlVars()['sortOption'];
+                url = url + currentPageSize+currentSortOption;
                 console.log(url);
                 $.ajax({
                     url: url,
