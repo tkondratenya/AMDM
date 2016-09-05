@@ -11,10 +11,8 @@ namespace AMDM.DAL.Interfaces
     public interface IUnitOfWork : IDisposable
     {     
         IRepository<Performer> Performers { get; }
-        IRepository<Song> Songs { get; }
+        ISongRepository Songs { get; }
         IRepository<Chord> Chords { get; }
-
-        IEnumerable<Song> GetSongsByPerformerId(int? performerId);
         void Save();
         void Truncate();
     }

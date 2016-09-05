@@ -11,6 +11,7 @@ namespace AMDM.BLL.Interfaces
     {
         IEnumerable<SongDTO> GetAll();
         SongDTO Get(int? id);
-        IEnumerable<SongDTO> GetSongsByPerformerId(int? performerId);
+        int GetSongsCount(int performerId);
+        IEnumerable<SongDTO> GetSongsChunkWithOrder(int performerId, string order, int skip, int take);
     }
 }

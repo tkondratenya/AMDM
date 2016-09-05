@@ -31,7 +31,7 @@ namespace AMDM.DAL.Repositories
             }
         }
 
-        public IRepository<Song> Songs
+        public ISongRepository Songs
         {
             get
             {
@@ -49,13 +49,6 @@ namespace AMDM.DAL.Repositories
                     chordRepository = new ChordRepository(db);
                 return chordRepository;
             }
-        }
-
-        public IEnumerable<Song> GetSongsByPerformerId(int? performerId)
-        {
-            return (from e in db.Songs
-                    where e.PerformerId == performerId
-                    select e);
         }
 
         public void Save()

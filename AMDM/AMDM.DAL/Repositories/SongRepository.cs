@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AMDM.DAL.Repositories
 {
-    public class SongRepository : BaseRepository<Song>
+    public class SongRepository : BaseRepository<Song>, ISongRepository
     {
         public SongRepository(AmdmContext context) : base(context)
         {

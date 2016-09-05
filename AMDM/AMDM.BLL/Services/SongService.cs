@@ -30,9 +30,16 @@ namespace AMDM.BLL.Services
                 throw new ValidationException("Can't find song", "");
             return Mapper.Map<Song, SongDTO>(song);
         }
-        public IEnumerable<SongDTO> GetSongsByPerformerId(int? performerId)
+        public int GetSongsCount(int performerId)
         {
-            return Mapper.Map<IEnumerable<Song>, List<SongDTO>>(Database.GetSongsByPerformerId(performerId));
+            return Database.Songs.GetSongsCount(performerId);
+        }
+
+        public IEnumerable<SongDTO> GetSongsChunkWithOrder(int performerId, string order, int skip, int take)
+        {
+            IEnumerable<Song> songs = Database.Songs.GetSongsChunkWithOrder(performerId, order, skip, take);
+            return Mapper.Map<IEnumerable<Song>, IEnumerable<SongDTO>>(
+                Database.Songs.GetSongsChunkWithOrder(performerId, order, skip, take));
         }
     }
 }

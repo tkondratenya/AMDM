@@ -230,7 +230,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\PagingHelper.cs" />
     <Compile Include="Migrations\201608251620550_MigrateDB.cs" />
     <Compile Include="Migrations\201608251620550_MigrateDB.Designer.cs">
       <DependentUpon>201608251620550_MigrateDB.cs</DependentUpon>
