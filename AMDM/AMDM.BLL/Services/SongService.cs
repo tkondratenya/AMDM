@@ -41,5 +41,12 @@ namespace AMDM.BLL.Services
             return Mapper.Map<IEnumerable<Song>, IEnumerable<SongDTO>>(
                 Database.Songs.GetSongsChunkWithOrder(performerId, order, skip, take));
         }
+
+        public void Update(SongDTO songDto)
+        {
+            Song song = Mapper.Map<SongDTO, Song>(songDto);
+            Database.Songs.Update(song);
+            Database.Save();
+        }
     }
 }

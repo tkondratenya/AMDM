@@ -20,6 +20,9 @@ namespace AMDM.BLL.Util
                 .ForMember(x => x.Chords, opt => opt.Ignore());
             CreateMap<Chord, ChordDTO>()
                 .ForMember(x => x.Songs, opt => opt.Ignore());
+            CreateMap<SongDTO, Song>()
+                .ForMember(x => x.Performer, opt => opt.Ignore());
+            CreateMap<ChordDTO, Chord>();
         }
     }
 }

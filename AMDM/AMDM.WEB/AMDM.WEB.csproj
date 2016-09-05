@@ -320,6 +320,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Performer.cshtml" />
     <Content Include="Views\Home\PartialSongList.cshtml" />
+    <Content Include="Views\Home\Song.cshtml" />
+    <Content Include="Views\Home\EditSong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

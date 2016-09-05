@@ -1,0 +1,47 @@
+﻿@model AMDM.WEB.Models.SongViewModel
+
+@{
+    ViewBag.Title = "EditSong";
+}
+<div align="center">
+    <h2>Редактирование</h2>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.PerformerId)
+    @Html.HiddenFor(model => model.Views)
+    <div class="editor-properties" align="center">
+        <div>
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "editor-label" })
+            <div>
+                @Html.EditorFor(model => model.Name, new { @class = "editor-form" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.SongPageLink, htmlAttributes: new { @class = "editor-label" })
+            <div>
+                @Html.EditorFor(model => model.SongPageLink, new { htmlAttributes = new { @class = "editor-form" } })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.VideoLink, htmlAttributes: new { @class = "editor-label" })
+            <div>
+                @Html.EditorFor(model => model.VideoLink, new { htmlAttributes = new { @class = "editor-form" } })
+            </div>
+        </div>
+    </div>
+
+        <div class="editor-textarea">
+            @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "editor-label" })
+            <div>
+                @Html.TextAreaFor(model => model.Text, new { style = "min-width:100%; min-height:400px;" })
+            </div>
+        </div>
+            <div class="editor-submit" align="center">
+                <input type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+}
+

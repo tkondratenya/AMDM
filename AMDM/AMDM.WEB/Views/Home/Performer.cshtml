@@ -26,9 +26,6 @@
              <div class="paging-nav"></div>             
         </div>
     @{ 
-        /*int page = ViewBag.page;
-        int pageSize = ViewBag.pageSize;
-        Songs = Model.Songs.ToPagedList(page, pageSize);*/
         StaticPagedList<AMDM.WEB.Models.SongViewModel> pagedList = ViewBag.pagedList;
     }
     

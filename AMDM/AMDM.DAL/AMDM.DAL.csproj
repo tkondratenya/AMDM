@@ -55,6 +55,7 @@
     <Compile Include="Entities\Chord.cs" />
     <Compile Include="Entities\Performer.cs" />
     <Compile Include="Entities\Song.cs" />
+    <Compile Include="Interfaces\IChordRepository.cs" />
     <Compile Include="Interfaces\IEntityWithName.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISongRepository.cs" />

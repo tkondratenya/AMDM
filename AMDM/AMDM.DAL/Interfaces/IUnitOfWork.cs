@@ -12,7 +12,7 @@ namespace AMDM.DAL.Interfaces
     {     
         IRepository<Performer> Performers { get; }
         ISongRepository Songs { get; }
-        IRepository<Chord> Chords { get; }
+        IChordRepository Chords { get; }
         void Save();
         void Truncate();
     }

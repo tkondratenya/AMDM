@@ -41,7 +41,7 @@ namespace AMDM.DAL.Repositories
             }
         }
 
-        public IRepository<Chord> Chords
+        public IChordRepository Chords
         {
             get
             {

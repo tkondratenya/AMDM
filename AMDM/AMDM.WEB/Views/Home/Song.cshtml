@@ -1,0 +1,49 @@
+﻿@model AMDM.WEB.Models.SongViewModel
+
+@{
+    ViewBag.Title = "Song";
+}
+
+
+<div class="song-container" align="left">
+    <h2>@ViewBag.PerformerName - @Model.Name</h2>
+    <div >
+        <a class="btn btn-default song-edit-btn" href="/Home/EditSong/@Model.Id">Редактировать</a>
+    </div>
+        <div class="song-text">
+            <pre>@Model.Text</pre>
+        </div>
+        @if (Model.Chords.Count() >= 1)
+        {
+                <div class="song-chords">
+                    <h3>Аппликатуры аккордов</h3>
+                    <div class="div-chordtable" align="center">
+                        <div class="div-chordtable-row">
+                            @{
+                                var count = 0;
+                                foreach (AMDM.WEB.Models.ChordViewModel chord in Model.Chords)
+                                {
+                                    if (count != 0 && count % 3 == 0)
+                                    {
+                                        @:</div>
+                                    @:<div class="div-chordtable-row">
+                            }
+                                    @:<div class="div-chordtable-col" align="center">
+                                        @:<img src="@chord.ImageLink">
+                                        @:</div>
+                                    count++;
+                                }
+
+                            }
+                        </div>
+                    </div>  
+            </div>
+                                }   
+    @if (Model.VideoLink.StartsWith("http:/"))
+    {
+        <div class="song-video">
+            <iframe src="@Model.VideoLink" width="560" height="315"></iframe>
+        </div>
+    }
+</div>
+

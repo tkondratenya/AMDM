@@ -10,6 +10,7 @@ using AutoMapper;
 using System.Web.Mvc;
 using PagedList;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace AMDM.WEB.Controllers
 {
@@ -18,11 +19,14 @@ namespace AMDM.WEB.Controllers
         IDataService dataService;
         IPerformerService performerService;
         ISongService songService;
-        public HomeController(IDataService dServ, IPerformerService pServ, ISongService sServ)
+        IChordService chordService;
+        public HomeController(IDataService dataServ, IPerformerService performerServ, ISongService songServ, IChordService chordServ)
         {
-            dataService = dServ;
-            performerService = pServ;
-            songService = sServ;
+            dataService = dataServ;
+            performerService = performerServ;
+            songService = songServ;
+            chordService = chordServ;
+
         }
 
         public ActionResult Index()
@@ -51,7 +55,31 @@ namespace AMDM.WEB.Controllers
                 ? (ActionResult)PartialView("PartialSongList", pagedList)
                 : View(performer);
         }
-
+        [HttpGet]
+        public ActionResult Song(int? id)
+        {
+            SongDTO songDto = songService.Get(id);
+            SongViewModel song = Mapper.Map<SongDTO, SongViewModel>(songDto);
+            ViewBag.PerformerName = performerService.Get(song.PerformerId).Name;
+            IEnumerable<ChordDTO> chordDtos = chordService.GetAllBySongId(id);
+            IEnumerable<ChordViewModel> chords = Mapper.Map<IEnumerable<ChordDTO>, IEnumerable<ChordViewModel>>(chordDtos);
+            song.Chords = chords;
+            return View(song);
+        }
+        [HttpGet]
+        public ActionResult EditSong(int? id)
+        {
+            SongDTO songDto = songService.Get(id);
+            SongViewModel song = Mapper.Map<SongDTO, SongViewModel>(songDto);
+            return View(song);
+        }
+        [HttpPost]
+        public ActionResult EditSong(SongViewModel song)
+        {
+            var songDto = Mapper.Map<SongViewModel, SongDTO>(song);
+            songService.Update(songDto);
+            return RedirectToAction("Song", new { id = song.Id });
+        }
         [HttpGet]
         public ActionResult ParseSongs()
         {

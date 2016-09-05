@@ -10,10 +10,15 @@ using System.Threading.Tasks;
 
 namespace AMDM.DAL.Repositories
 {
-    public class ChordRepository : BaseRepository<Chord>
+    public class ChordRepository : BaseRepository<Chord>, IChordRepository
     {
         public ChordRepository(AmdmContext context) : base(context)
         {
+        }
+
+        public IEnumerable<Chord> GetAllBySongId(int? songId)
+        {
+            return db.Chords.Where(x => x.Songs.Any(y=>y.Id == songId));
         }
     }
 }

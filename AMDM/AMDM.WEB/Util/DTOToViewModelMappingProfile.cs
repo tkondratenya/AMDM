@@ -19,6 +19,9 @@ namespace AMDM.WEB.Util
                 .ForMember(x => x.Chords, opt => opt.Ignore());
             CreateMap<ChordDTO, ChordViewModel>()
                 .ForMember(x => x.Songs, opt => opt.Ignore());
+            CreateMap<SongViewModel, SongDTO>()
+                .ForMember(x => x.Performer, opt => opt.Ignore());
+            CreateMap<ChordViewModel, ChordDTO>();
         }
     }
 }

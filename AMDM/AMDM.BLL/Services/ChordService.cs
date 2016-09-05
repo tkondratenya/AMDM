@@ -20,7 +20,7 @@ namespace AMDM.BLL.Services
         }
         public IEnumerable<ChordDTO> GetAll()
         {
-            return Mapper.Map<IEnumerable<Chord>, List<ChordDTO>>(Database.Chords.GetAll());
+            return Mapper.Map<IEnumerable<Chord>, IEnumerable<ChordDTO>>(Database.Chords.GetAll());
         }
         public ChordDTO Get(int? id)
         {
@@ -30,6 +30,11 @@ namespace AMDM.BLL.Services
             if (chord == null)
                 throw new ValidationException("Can't find chord", "");
             return Mapper.Map<Chord, ChordDTO>(chord);
+        }
+
+        public IEnumerable<ChordDTO> GetAllBySongId(int? songId)
+        {
+            return Mapper.Map<IEnumerable<Chord>, IEnumerable<ChordDTO>>(Database.Chords.GetAllBySongId(songId));
         }
     }
 }
