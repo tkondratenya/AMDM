@@ -9,16 +9,17 @@ using AMDM.DAL.Entities;
 
 namespace AMDM.BLL.Util
 {
-        public class EntityToDTOMappingProfile : Profile
+    public class EntityToDTOMappingProfile : Profile
     {
         public EntityToDTOMappingProfile()
         {
-            CreateMap<Performer, PerformerDTO>().MaxDepth(3);
-            CreateMap<Song, SongDTO>().MaxDepth(3);
-            CreateMap<Chord, ChordDTO>().MaxDepth(3);
-            CreateMap<PerformerDTO, Performer>().MaxDepth(3);
-            CreateMap<SongDTO, Song>().MaxDepth(3);
-            CreateMap<ChordDTO, Chord>().MaxDepth(3);
+            CreateMap<Performer, PerformerDTO>()
+                .ForMember(x => x.Songs, opt => opt.Ignore());
+            CreateMap<Song, SongDTO>()
+                .ForMember(x => x.Performer, opt => opt.Ignore())
+                .ForMember(x => x.Chords, opt => opt.Ignore());
+            CreateMap<Chord, ChordDTO>()
+                .ForMember(x => x.Songs, opt => opt.Ignore());
         }
     }
 }

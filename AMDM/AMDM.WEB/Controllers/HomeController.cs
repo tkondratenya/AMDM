@@ -9,6 +9,7 @@ using System.Web;
 using AutoMapper;
 using System.Web.Mvc;
 using PagedList;
+using System.Threading.Tasks;
 
 namespace AMDM.WEB.Controllers
 {
@@ -51,6 +52,7 @@ namespace AMDM.WEB.Controllers
             ViewBag.page = page;
             ViewBag.pageSize = pageSize;
             var pagedList = songs.ToPagedList(page, pageSize);
+
             return Request.IsAjaxRequest()
                 ? (ActionResult)PartialView("PartialSongList", pagedList)
                 : View(performer);
@@ -72,6 +74,12 @@ namespace AMDM.WEB.Controllers
         {
             dataService.DeleteAllData();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult ClearCache()
+        {
+            dataService.ClearCache();
+                return RedirectToAction("Index");
         }
 
     }

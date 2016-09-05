@@ -32,13 +32,9 @@ namespace AMDM.BLL.Services
             if (!Cache.Get(keyIndex, out performer))
             {
                 performer = Database.Performers.Get(id.Value);
-                Cache.Set(keyIndex, performer,10);
-                Debug.WriteLine("Set performer in cache!");
+                Cache.Set(keyIndex, performer,60);
             }
             else
-            {
-                Debug.WriteLine("Found performer in cache!");
-            }
             if (performer == null)
                 throw new ValidationException("Can't find performer", "");
             return Mapper.Map<Performer, PerformerDTO>(performer);

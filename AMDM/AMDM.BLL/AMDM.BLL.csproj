@@ -58,7 +58,6 @@
     <Compile Include="DTO\ChordDTO.cs" />
     <Compile Include="DTO\PerformerDTO.cs" />
     <Compile Include="DTO\SongDTO.cs" />
-    <Compile Include="Infrastructure\CacheData.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Interfaces\IBaseService.cs" />

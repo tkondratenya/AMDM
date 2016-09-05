@@ -66,5 +66,13 @@ namespace AMDM.BLL.Util
             }
 
         }
+
+        public void ClearAll()
+        {
+            foreach (DictionaryEntry item in _cache)
+            {
+                Clear((string)item.Key);
+            }
+        }
     }
 }

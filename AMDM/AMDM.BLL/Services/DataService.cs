@@ -258,5 +258,10 @@ namespace AMDM.BLL.Services
             }
             return str;
         }
+
+        public void ClearCache()
+        {
+            Cache.ClearAll();
+        }
     }
 }

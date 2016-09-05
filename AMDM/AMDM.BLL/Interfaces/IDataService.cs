@@ -15,5 +15,6 @@ namespace AMDM.BLL.Interfaces
         void StoreParsedPerformers();
         void StoreParsedSongs();
         void DeleteAllData();
+        void ClearCache();
     }
 }
