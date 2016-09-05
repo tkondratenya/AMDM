@@ -308,3 +308,7 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .chords-select{
+            margin-top:30px;  
+            width:100%;   
+        }

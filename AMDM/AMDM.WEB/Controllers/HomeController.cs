@@ -71,6 +71,9 @@ namespace AMDM.WEB.Controllers
         {
             SongDTO songDto = songService.Get(id);
             SongViewModel song = Mapper.Map<SongDTO, SongViewModel>(songDto);
+            IEnumerable<ChordDTO> chordDtos = chordService.GetAllBySongId(id);
+            IEnumerable<ChordViewModel> chords = Mapper.Map<IEnumerable<ChordDTO>, IEnumerable<ChordViewModel>>(chordDtos);
+            song.Chords = chords;
             return View(song);
         }
         [HttpPost]

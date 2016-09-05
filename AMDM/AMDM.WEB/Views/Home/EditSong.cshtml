@@ -2,7 +2,8 @@
 
 @{
     ViewBag.Title = "EditSong";
-}
+} 
+
 <div align="center">
     <h2>Редактирование</h2>
 </div>
@@ -32,8 +33,21 @@
                 @Html.EditorFor(model => model.VideoLink, new { htmlAttributes = new { @class = "editor-form" } })
             </div>
         </div>
+        <div class="chords-select">
+            <select id="select-multiple" multiple="multiple" style="width:75%;">
+                <option selected value="AL">Alabama</option>
+                <option selected value="WY">Wyoming</option>
+                <option selected value="AL">Alabama</option>
+                <option selected value="WY">Wyoming</option>
+                <option selected value="AL">Alabama</option>
+                <option selected value="WY">Wyoming</option>
+                <option selected value="AL">Alabama</option>
+                <option selected value="WY">Wyoming</option>
+                <option selected value="AL">Alabama</option>
+                <option selected value="WY">Wyoming</option>
+            </select>
+        </div>
     </div>
-
         <div class="editor-textarea">
             @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "editor-label" })
             <div>
@@ -44,4 +58,8 @@
                 <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
 }
+
+<script type="text/javascript">
+        $("#select-multiple").select2();
+</script>
 
