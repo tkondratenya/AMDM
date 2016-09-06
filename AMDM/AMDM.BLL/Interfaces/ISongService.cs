@@ -10,9 +10,9 @@ namespace AMDM.BLL.Interfaces
     public interface ISongService
     {
         IEnumerable<SongDTO> GetAll();
-        SongDTO Get(int? id);
+        SongDTO Get(int id);
         int GetSongsCount(int performerId);
         IEnumerable<SongDTO> GetSongsChunkWithOrder(int performerId, string order, int skip, int take);
-        void Update(SongDTO song);
+        void Update(SongDTO song, int[] chordsId);
     }
 }

@@ -56,7 +56,7 @@ namespace AMDM.WEB.Controllers
                 : View(performer);
         }
         [HttpGet]
-        public ActionResult Song(int? id)
+        public ActionResult Song(int id)
         {
             SongDTO songDto = songService.Get(id);
             SongViewModel song = Mapper.Map<SongDTO, SongViewModel>(songDto);
@@ -67,20 +67,23 @@ namespace AMDM.WEB.Controllers
             return View(song);
         }
         [HttpGet]
-        public ActionResult EditSong(int? id)
+        public ActionResult EditSong(int id)
         {
             SongDTO songDto = songService.Get(id);
             SongViewModel song = Mapper.Map<SongDTO, SongViewModel>(songDto);
             IEnumerable<ChordDTO> chordDtos = chordService.GetAllBySongId(id);
             IEnumerable<ChordViewModel> chords = Mapper.Map<IEnumerable<ChordDTO>, IEnumerable<ChordViewModel>>(chordDtos);
             song.Chords = chords;
+            IEnumerable<ChordDTO> allChordsDtos = chordService.GetAll();
+            IEnumerable<ChordViewModel> allChords = Mapper.Map<IEnumerable<ChordDTO>, IEnumerable<ChordViewModel>>(allChordsDtos);
+            ViewBag.AllChords = allChords;
             return View(song);
         }
         [HttpPost]
-        public ActionResult EditSong(SongViewModel song)
+        public ActionResult EditSong(SongViewModel song, int[] chordsId)
         {
             var songDto = Mapper.Map<SongViewModel, SongDTO>(song);
-            songService.Update(songDto);
+            songService.Update(songDto, chordsId);
             return RedirectToAction("Song", new { id = song.Id });
         }
         [HttpGet]

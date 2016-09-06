@@ -101,20 +101,17 @@ namespace AMDM.BLL.Services
         {
             IEnumerable<Performer> Performers = ParsePerformers();
 
-            foreach(var chunk in Performers.OrderBy(c => c.Id).AsQueryable().QueryChunksOfSize(30))
-            {
-                foreach (Performer performer in chunk)
+                foreach (Performer performer in Performers)
                 {
                     Database.Performers.Create(performer);
                 }
-                Database.Save();
-            }
+                Database.Save();    
         }
 
         public void StoreParsedSongs()
         {
             IEnumerable<Performer> PerformersList = Database.Performers.GetAll();
-
+            List<Chord> AddedChords = new List<Chord>();
             foreach (var chunk in PerformersList.OrderBy(c => c.Id).AsQueryable().QueryChunksOfSize(1))
             {
                 foreach (Performer performer in chunk)
@@ -123,20 +120,21 @@ namespace AMDM.BLL.Services
                     foreach (Song song in Songs)
                     {
                         IEnumerable<Chord> ChordsList = song.Chords;
-                        song.Chords = new List<Chord>();
-                        Database.Songs.Create(song);
-                        performer.Songs.Add(song);
-                        foreach (Chord chord in ChordsList)
+                        song.Chords = new List<Chord>();                                             
+                       foreach (Chord chord in ChordsList)
                         {
-                            if(Database.Chords.GetByName(chord.Name)!=null)
+                            if(AddedChords.FirstOrDefault(s=>s.Name == chord.Name)!=null)
                             {
-                                song.Chords.Add(chord);
+                                song.Chords.Add(Database.Chords.GetByName(chord.Name));  
                             }
                             else {
                                 Database.Chords.Create(chord);
                                 song.Chords.Add(chord);
-                            }   
+                                AddedChords.Add(chord);
+                            } 
                         }
+                        Database.Songs.Create(song);
+                        performer.Songs.Add(song);
                     }
                 }
                 Database.Save();
@@ -228,6 +226,8 @@ namespace AMDM.BLL.Services
                 {
                     var chordLinkHtml = ("http:" + imgNode.Attributes["src"].Value);
                     var chordName = imgNode.Attributes["alt"].Value;
+                    chordName = chordName.Replace("Аккорд", "");
+                    chordName = chordName.Replace(" ", "");
                     Chord chord = new Chord
                     {
                         Name = chordName,

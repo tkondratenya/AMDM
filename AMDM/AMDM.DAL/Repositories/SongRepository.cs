@@ -47,5 +47,27 @@ namespace AMDM.DAL.Repositories
             }
             return songs;
         }
+
+        public void UpdateChords(Song song, int[] chordsId)
+        {
+            var chords = song.Chords.Select(c=>c.Id);
+            foreach(var chord in db.Chords)
+            {
+                if (chordsId.Contains(chord.Id))
+                {
+                    if (!chords.Contains(chord.Id))
+                    {
+                        song.Chords.Add(chord);
+                    }
+                } else
+                {
+                    if (chords.Contains(chord.Id))
+                    {
+                        song.Chords.Remove(chord);
+                    }
+                }
+            }
+
+        }
     }
 }

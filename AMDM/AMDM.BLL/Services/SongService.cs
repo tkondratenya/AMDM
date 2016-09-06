@@ -21,11 +21,11 @@ namespace AMDM.BLL.Services
         {
             return Mapper.Map<IEnumerable<Song>, List<SongDTO>>(Database.Songs.GetAll());
         }
-        public SongDTO Get(int? id)
+        public SongDTO Get(int id)
         {
-            if (id == null)
-                throw new ValidationException("There are no such id for song", "");
-            var song = Database.Songs.Get(id.Value);
+           /* if (id == null)
+                throw new ValidationException("There are no such id for song", "");*/
+            var song = Database.Songs.Get(id);
             if (song == null)
                 throw new ValidationException("Can't find song", "");
             return Mapper.Map<Song, SongDTO>(song);
@@ -42,10 +42,24 @@ namespace AMDM.BLL.Services
                 Database.Songs.GetSongsChunkWithOrder(performerId, order, skip, take));
         }
 
-        public void Update(SongDTO songDto)
+        public void Update(SongDTO songDto, int[] chordsId)
         {
             Song song = Mapper.Map<SongDTO, Song>(songDto);
-            Database.Songs.Update(song);
+            Song songToChange = Database.Songs.Get(song.Id);
+            songToChange.Name = song.Name;
+            songToChange.SongPageLink = song.SongPageLink;
+            songToChange.Text = song.Text;
+            songToChange.VideoLink = song.VideoLink;
+            songToChange.Views = song.Views;
+            if (chordsId == null)
+            {
+                song.Chords = new List<Chord>();
+            }
+            else
+            {
+                Database.Songs.UpdateChords(songToChange, chordsId);
+            }
+            Database.Songs.Update(songToChange);
             Database.Save();
         }
     }

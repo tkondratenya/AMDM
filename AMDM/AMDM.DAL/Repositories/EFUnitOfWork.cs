@@ -62,8 +62,8 @@ namespace AMDM.DAL.Repositories
             db.Database.ExecuteSqlCommand("DBCC CHECKIDENT([Chords], RESEED, 0)");
             db.Database.ExecuteSqlCommand("DELETE FROM [Songs]");
             db.Database.ExecuteSqlCommand("DBCC CHECKIDENT([Songs], RESEED, 0)");
-            db.Database.ExecuteSqlCommand("DELETE FROM [Performers]");
-            db.Database.ExecuteSqlCommand("DBCC CHECKIDENT([Performers], RESEED, 0)");
+           // db.Database.ExecuteSqlCommand("DELETE FROM [Performers]");
+           // db.Database.ExecuteSqlCommand("DBCC CHECKIDENT([Performers], RESEED, 0)");
             db.SaveChanges();
         }
 

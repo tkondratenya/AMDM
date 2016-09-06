@@ -32,19 +32,19 @@
             <div>
                 @Html.EditorFor(model => model.VideoLink, new { htmlAttributes = new { @class = "editor-form" } })
             </div>
-        </div>
-        <div class="chords-select">
-            <select id="select-multiple" multiple="multiple" style="width:75%;">
-                <option selected value="AL">Alabama</option>
-                <option selected value="WY">Wyoming</option>
-                <option selected value="AL">Alabama</option>
-                <option selected value="WY">Wyoming</option>
-                <option selected value="AL">Alabama</option>
-                <option selected value="WY">Wyoming</option>
-                <option selected value="AL">Alabama</option>
-                <option selected value="WY">Wyoming</option>
-                <option selected value="AL">Alabama</option>
-                <option selected value="WY">Wyoming</option>
+        </div><div class="chords-select">
+            <select name="chordsId" id="select-multiple" multiple="multiple" style="width:75%;">
+                @foreach (AMDM.WEB.Models.ChordViewModel chord in ViewBag.AllChords)
+                {
+                    if (Model.Chords.Any(s => s.Name == chord.Name))
+                    {
+                        <option selected value="@chord.Id">@chord.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@chord.Id">@chord.Name</option>
+                    }
+                }
             </select>
         </div>
     </div>
@@ -60,6 +60,11 @@
 }
 
 <script type="text/javascript">
-        $("#select-multiple").select2();
+    $("#select-multiple").select2();
+  /*  $(function () {
+        $('#select-multiple').find('option').each(function () {
+            if($(this).attr("value")==)
+        });
+    });*/
 </script>
 

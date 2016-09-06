@@ -11,5 +11,6 @@ namespace AMDM.DAL.Interfaces
     {
         int GetSongsCount(int performerId);
         IEnumerable<Song> GetSongsChunkWithOrder(int performerId, string order, int skip, int take);
+        void UpdateChords(Song song, int[] chordsId);
     }
 }
